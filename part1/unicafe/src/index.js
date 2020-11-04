@@ -7,7 +7,7 @@ const Button = ({ handleClick, text }) =>
   </button>
 
 const Statistics = ({ good, neutral, bad, all, average, positive, setGood, setNeutral, setBad }) => {
-    if(all === 0)
+  if (all === 0)
     return (
       <div>
         <h1>give feedback</h1>
@@ -18,7 +18,7 @@ const Statistics = ({ good, neutral, bad, all, average, positive, setGood, setNe
         <p>no feedback given</p>
       </div>
     )
-      return(
+  return (
     <div>
       <h1>give feedback</h1>
       <Statistic field={good} setter={setGood} text='good' />
@@ -29,15 +29,12 @@ const Statistics = ({ good, neutral, bad, all, average, positive, setGood, setNe
       <p>average {average}</p>
       <p>positive {positive} %</p>
     </div>
-    )
-  
+  )
 }
-
-
 
 const Statistic = ({ field, setter, text }) =>
   <Fragment>
-    <Button handleClick={() =>{setter(field + 1)}} text={text} />
+    <Button handleClick={() => { setter(field + 1) }} text={text} />
     <p>{text} {field}</p>
   </Fragment>
 
