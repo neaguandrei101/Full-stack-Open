@@ -9,16 +9,16 @@ const Header = ({ course }) => {
 
 const Total = ({ course }) => {
   const sum = course.parts.map(part => part.exercises).reduce((s, p) => s + p)
-  return(
+  return (
     <b>Number of exercises {sum}</b>
-  ) 
+  )
 }
 
 const Part = (props) => {
   return (
     <p>
       {props.part.name} {props.part.exercises}
-    </p>    
+    </p>
   )
 }
 
@@ -26,14 +26,14 @@ const Content = ({ course }) => {
   const { parts } = course
   return (
     <div>
-      {parts.map(part => 
-      <Part key={part.id} part={part} />
+      {parts.map(part =>
+        <Part key={part.id} part={part} />
       )}
     </div>
   )
 }
 
-const Course = ({course}) => {
+const Course = ({ course }) => {
   return (
     <div>
       <Header course={course} />
@@ -44,29 +44,56 @@ const Course = ({course}) => {
 }
 
 const App = () => {
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3
-      }
-    ]
-  }
+  const courses = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    },
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
-  return <Course course={course} />
+  return (
+    <div>
+      {courses.map(course => <Course key={course.id} course={course} />)}
+    </div>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
