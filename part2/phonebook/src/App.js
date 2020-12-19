@@ -5,7 +5,6 @@ import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 
 const App = () => {
-  //The persons only get updated only on filter changes and I don't know why
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
