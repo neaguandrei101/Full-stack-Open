@@ -10,6 +10,10 @@ const backendPost = (personObject) => {
         .post('http://localhost:3001/persons', personObject)
 }
 
-export { backendGet, backendPost }
+const backendDelete = (id) => {
+       axios.delete(`http://localhost:3001/persons/${id}`).catch(console.log)
+}
+
+export { backendGet, backendPost , backendDelete}
 
 
