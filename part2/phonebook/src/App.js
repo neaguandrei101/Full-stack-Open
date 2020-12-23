@@ -9,23 +9,18 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [personsToShow, setPersonsToShow] = useState(persons)
-  const [filterEnabled, setFilterEnabled] = useState(true)
+  const [personsToShow, setPersonsToShow] = useState([])
 
   useEffect(() => {
     backendGet().then(response => {
       setPersons(response.data)
-      setPersonsToShow(response.data)
-    })
+      setPersonsToShow(response.data.filter(person => {
+        const foo = person.name.toLowerCase().includes(filter.toLowerCase())
+        return foo
+      }))
+    }).catch(error => console.log(error))
 
-    const interval = setInterval(() => {
-      backendGet().then(response => {
-        setPersons(response.data)
-      })
-    }, 1000)
-    return () => clearInterval(interval)
-  }
-    , [])
+  }, [filter])
 
   const addName = (event) => {
     event.preventDefault()
@@ -51,29 +46,20 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const handleFilterButtonClick = (event) => {
-    setFilterEnabled(!filterEnabled)
-    if (filterEnabled) {
-      const list = persons.filter(person => {
-        const myFilter = person.name.toLowerCase().includes(filter.toLowerCase())
-        return myFilter
-      })
-      setPersonsToShow(list)
-    } else {
-      setPersonsToShow(persons)
-    }
-  }
-
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
+    const list = persons.filter(person => {
+      const foo = person.name.toLowerCase().includes(filter.toLowerCase())
+      return foo
+    })
+    setPersonsToShow(list)
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter filter={filter} 
-      handleFilterChange={handleFilterChange} 
-      handleFilterButtonClick ={handleFilterButtonClick}/>
+      <Filter filter={filter}
+        handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm addName={addName}
         newName={newName}
