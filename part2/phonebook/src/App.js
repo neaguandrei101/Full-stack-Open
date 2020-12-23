@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import {backendGet, backendPost} from './components/BackendCom'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,15 +11,8 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [personsToShow, setPersonsToShow] = useState(persons)
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-        setPersonsToShow(response.data)
-      })
-  }
-    , [])
+  useEffect(() =>  backendGet(setPersons, setPersonsToShow)
+  , [] )
 
   const addName = (event) => {
     event.preventDefault()
@@ -30,7 +23,7 @@ const App = () => {
     } else {
       const personObject = { name: newName, number: newNumber }
       setPersons(persons.concat(personObject))
-      axios.post('http://localhost:3001/persons', personObject)
+      backendPost(personObject)
       setNewNumber('')
       setNewName('')
     }
