@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-import { backendGet, backendPost, backendDelete } from './components/Services'
+import { backendGet, backendPost, backendDelete, backendPut } from './components/Services'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -29,14 +29,24 @@ const App = () => {
     setChange(!change)
     event.preventDefault()
     if (persons.some(person => person.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`);
+      const result = window.confirm(`${newName} is already added to phonebook, replace old number with a new one?`);
+      if(result) {
+        const person = persons.find(person => person.name === newName)
+        const changedPerson = {...person, number: newNumber}
+        backendPut(changedPerson.id, changedPerson)
+        .then(response => {
+          setPersons(persons.map(person => person.id!==changedPerson.id ? person : response.data))
+        })
+      }
       setNewNumber('')
       setNewName('')
     } else {
       const personObject = { name: newName, number: newNumber }
-      backendPost(personObject).then(response => {
+      backendPost(personObject)
+      .then(response => {
         setPersons(persons.concat(response.data))
       })
+      .catch(exception => console.log(exception))
       setNewNumber('')
       setNewName('')
     }

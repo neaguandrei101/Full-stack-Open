@@ -1,19 +1,26 @@
 import axios from 'axios'
+const baseUrl = 'http://localhost:3001/persons'
 
 const backendGet = () => {
     return axios
-        .get('http://localhost:3001/persons')
+        .get(baseUrl)
 }
 
 const backendPost = (personObject) => {
     return axios
-        .post('http://localhost:3001/persons', personObject)
+        .post(baseUrl, personObject)
 }
 
 const backendDelete = (id) => {
-       axios.delete(`http://localhost:3001/persons/${id}`)
+    return axios
+        .delete(`${baseUrl}/${id}`)
 }
 
-export { backendGet, backendPost , backendDelete}
+const backendPut = (id, personObject) => {
+    return axios
+        .put(`${baseUrl}/${id}`, personObject)
+}
+
+export { backendGet, backendPost, backendDelete ,backendPut}
 
 
