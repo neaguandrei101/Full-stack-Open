@@ -23,7 +23,7 @@ const App = () => {
       const foo = person.name.toLowerCase().includes(filter.toLowerCase())
       return foo
     }))
-  },[filter, persons])
+  }, [filter, persons])
 
   const handleAdd = (event) => {
     setChange(!change)
@@ -42,9 +42,11 @@ const App = () => {
     }
   }
 
-  const handleDelete = (id) => {
-    backendDelete(id)
-    setChange(!change)
+  const handleDelete = (person) => {
+    if (window.confirm(`Delete ${person.name}`)) {
+      backendDelete(person.id)
+      setChange(!change)
+    }
   }
 
   const handleNameChange = (event) => {
