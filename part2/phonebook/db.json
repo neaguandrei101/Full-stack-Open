@@ -21,19 +21,14 @@
       "id": 4
     },
     {
-      "name": "Andrei",
+      "name": "boss",
       "number": "123",
       "id": 5
     },
     {
-      "name": "Andrei Neagu",
-      "number": "1234",
+      "name": "andrei",
+      "number": "333",
       "id": 6
-    },
-    {
-      "name": "Boss Gaozz",
-      "number": "987",
-      "id": 7
     }
   ]
 }

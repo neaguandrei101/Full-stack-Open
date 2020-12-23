@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-import {backendGet, backendPost} from './components/BackendCom'
+import { backendGet, backendPost } from './components/BackendCom'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,9 +11,13 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [personsToShow, setPersonsToShow] = useState(persons)
 
-  useEffect(() =>  backendGet(setPersons, setPersonsToShow)
-  , [] )
+  useEffect(() => backendGet().then(response => {
+    setPersons(response.data)
+    setPersonsToShow(response.data)
+  })
+    , [])
 
+    //TODO fix filter
   const addName = (event) => {
     event.preventDefault()
     if (persons.some(person => person.name === newName)) {
@@ -22,8 +26,10 @@ const App = () => {
       setNewName('')
     } else {
       const personObject = { name: newName, number: newNumber }
-      setPersons(persons.concat(personObject))
-      backendPost(personObject)
+      backendPost(personObject).then(response => {
+        setPersons(persons.concat(response.data))
+        setPersonsToShow(persons)
+      })
       setNewNumber('')
       setNewName('')
     }
@@ -57,7 +63,7 @@ const App = () => {
         newNumber={newNumber}
         handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} deleteFunc={() => console.log('delete pressed')} />
     </div>
   )
 }
