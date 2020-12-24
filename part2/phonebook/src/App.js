@@ -11,6 +11,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [personsToShow, setPersonsToShow] = useState([])
   const [change, setChange] = useState(false)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     backendGet().then(response => {
@@ -25,31 +26,66 @@ const App = () => {
     }))
   }, [filter, persons])
 
+  const Notification = ({ message }) => {
+    const notificationStyle = {
+      color: 'green',
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10
+    }
+
+    if (message === null) {
+      return null
+    }
+
+    return (
+      <div style={notificationStyle}>
+        {message}
+      </div>
+    )
+  }
+
+  const notificationMsgTimeout = (name) => {
+    setNotification(`${name} added`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 4000)
+  }
+
   const handleAdd = (event) => {
     setChange(!change)
     event.preventDefault()
+
     if (persons.some(person => person.name === newName)) {
-      const result = window.confirm(`${newName} is already added to phonebook, replace old number with a new one?`);
-      if(result) {
+      const confirmMsg = `${newName} is already added to phonebook, replace old number with a new one?`
+      const result = window.confirm(confirmMsg)
+      if (result) {
         const person = persons.find(person => person.name === newName)
-        const changedPerson = {...person, number: newNumber}
-        backendPut(changedPerson.id, changedPerson)
-        .then(response => {
-          setPersons(persons.map(person => person.id!==changedPerson.id ? person : response.data))
-        })
+        const personWnewNumber = { ...person, number: newNumber }
+        backendPut(personWnewNumber.id, personWnewNumber)
+          .then(response => {
+            setPersons(persons.map(person => person.id !== personWnewNumber.id ? person : response.data))
+            notificationMsgTimeout(response.data.name)
+          })
       }
       setNewNumber('')
       setNewName('')
     } else {
       const personObject = { name: newName, number: newNumber }
       backendPost(personObject)
-      .then(response => {
-        setPersons(persons.concat(response.data))
-      })
-      .catch(exception => console.log(exception))
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          notificationMsgTimeout(response.data.name)
+        })
+        .catch(exception => console.log(exception))
       setNewNumber('')
       setNewName('')
     }
+
+    return (notification)
   }
 
   const handleDelete = (person) => {
@@ -77,6 +113,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} />
       <Filter filter={filter}
         handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
