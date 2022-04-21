@@ -4,13 +4,14 @@
   "description": "fullstackOpen_part3",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build:ui": "rm -rf build && cd ../phonebook/ && npm run build --prod && cp -r build ../backend",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail --app pacific-springs-87048",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=test jest --verbose",
+    "testBK": "cross-env NODE_ENV=test node --nolazy --inspect-brk ./node_modules/jest/bin/jest.js --colors --verbose -- tests/supertest_blog_api.test.js"
   },
   "author": "Andrei Neagu",
   "license": "MIT",
@@ -23,11 +24,13 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "jest": "^27.5.1",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "supertest": "^6.2.2"
   },
   "jest": {
-   "testEnvironment": "node"
- }
+    "testEnvironment": "node"
+  }
 }
