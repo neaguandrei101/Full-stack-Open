@@ -31,8 +31,26 @@ beforeEach(async () => {
 test('correct amount of blogposts', async () => {
     const response = await api.get('/api/blogs')
         .expect(200)
-        
+
     expect(response.body).toHaveLength(initialBlogs.length)
+})
+
+test('add a blog with post', async () => {
+    const newBlog = {
+        title: "First class tests",
+        author: "Robert C. Martin",
+        url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+        likes: 10
+    }
+
+     await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await api.get('/api/blogs')
+        expect(blogsAtEnd.body).toHaveLength(initialBlogs.length + 1)
 })
 
 afterAll(() => {
