@@ -53,6 +53,19 @@ test('add a blog with post', async () => {
         expect(blogsAtEnd.body).toHaveLength(initialBlogs.length + 1)
 })
 
+test('delete a blog', async () => {
+    const fistBlogArr = await Blog.find({title: "Canonical string reduction"})
+    const id = fistBlogArr[0]._id
+    
+    await api
+        .delete(`/api/blogs/${id}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await api.get('/api/blogs')
+        expect(blogsAtEnd.body).toHaveLength(initialBlogs.length - 1)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })

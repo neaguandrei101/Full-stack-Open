@@ -88,3 +88,5 @@ typings/
 .dynamodb/
 .vscode/launch.json
 part4/backend/requests/post.http
+part4/backend/requests/put.http
+part4/backend/requests/delete.http
