@@ -4,15 +4,16 @@ const User = require('../models/user')
 const helper = require('../utils/helper')
 
 usersRouter.post('/', async (request, response) => {
-    const { username, name, password } = request.body
-    if( username.length < 3 || password.length < 3) {
+    const {username, name, password} = request.body
+    if (username.length < 3 || password.length < 3) {
         return response.status(400).json({error: 'username and password must be at least 3 characters long'})
     }
 
-    const users = await helper.usersInDb()
-    const uniqueUser = users.filter(user => user.username === username)
-    if(users.filter(user => user.username === username).length > 0) {
-        return response.status(400).json({error: 'username must be unique'})
+    const existingUser = await User.findOne({username})
+    if (existingUser) {
+        return response.status(400).json({
+            error: 'username must be unique'
+        })
     }
 
     const saltRounds = 10
@@ -30,7 +31,8 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.get('/', async (request, response) => {
-   const users = await User.find({})
+    const users = await User
+        .find({}).populate('blogs', {url: 1, title: 1, author: 1})
     response.json(users)
 })
 
