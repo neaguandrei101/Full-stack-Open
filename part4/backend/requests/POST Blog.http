@@ -1,6 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYyYWNiODQ3NzRlNzI4NzI5ZGQ4ZjI2ZiIsImlhdCI6MTY1NTk5Nzc0NH0.LKHzF5mXtbsWBNqQwmadU-3is3sVXQ7wI5eyR3YDUP
+//good token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYyYWNiODQ3NzRlNzI4NzI5ZGQ4ZjI2ZiIsImlhdCI6MTY1NTk5Nzc0NH0.LKHzF5mXtbsWBNqQwmadU-3is3sVXQ7wI5eyR3YDUPs
+//Wrong token
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYyYWNiODQ3NzRlNzI4NzI5ZGQ4ZjI2ZiIsImlhdCI6MTY1NTk5Nzc0NH0.LKHzF5mXtbsWBNqQwmadU-3is3sVXQ7wI5eyR3YDUP
 
 {
   "title": "Jay Cutler",
