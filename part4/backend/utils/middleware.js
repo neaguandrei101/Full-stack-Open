@@ -37,8 +37,13 @@ const findUser = async id => {
 }
 
 const userExtractor = async (request, response, next) => {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    request.user = await findUser(decodedToken.id)
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        const decodedToken = jwt.verify(authorization.substring(7), process.env.SECRET)
+        if (decodedToken) {
+            request.user = await User.findById(decodedToken.id)
+        }
+    }
 
     next()
 }
