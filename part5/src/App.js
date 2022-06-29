@@ -16,10 +16,25 @@ const App = () => {
         )
     }, [])
 
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            setUser(user)
+            blogService.setToken(user.token)
+        }
+    }, [])
+
     const handleLogin = async (event) => {
         event.preventDefault()
         try {
-            const user = await loginService.login({username, password})
+            const user = await loginService.login({
+                username, password
+            })
+            window.localStorage.setItem(
+                'loggedBlogAppUser', JSON.stringify(user)
+            )
+            blogService.setToken(user.token)
             setUser(user)
             setUsername('')
             setPassword('')
@@ -30,8 +45,6 @@ const App = () => {
 
     const loginForm = () => (
         <React.Fragment>
-            <h2>Login</h2>
-
             <form onSubmit={handleLogin}>
                 <div>
                     username
@@ -62,14 +75,29 @@ const App = () => {
         )
     )
 
+    const loggedInForm = () => (
+        <div>
+            <p>{user.name} logged-in</p>
+            <button onClick={() => {
+                window.localStorage.clear()
+                setUser(null)
+            }}>
+                logout
+            </button>
+        </div>
+    )
+
     return (
         <div>
+            <h2>Login</h2>
+
             {user === null
                 ? loginForm()
-                : <p>{user.name} logged-in</p>
+                : loggedInForm()
             }
 
             <h2>blogs</h2>
+
             {blogForm()}
         </div>
     )
