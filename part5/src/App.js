@@ -1,19 +1,19 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import React from 'react';
 import Notification from "./components/Notification";
+import LoginForm from "./components/LoginForm";
+import BlogForm from "./components/BlogForm";
+import Togglable from "./components/Togglable";
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
     const [message, setMessage] = useState(null)
+    const blogFormRef = useRef()
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -48,31 +48,43 @@ const App = () => {
         }
     }
 
-    const loginForm = () => (
-        <React.Fragment>
-            <form onSubmit={handleLogin}>
+    const login = () => {
+        if (user === null) {
+            return (
                 <div>
-                    username
-                    <input
-                        type="text"
-                        value={username}
-                        name="Username"
-                        onChange={({target}) => setUsername(target.value)}
+                    <LoginForm
+                        username={username}
+                        password={password}
+                        handleUsernameChange={({target}) => setUsername(target.value)}
+                        handlePasswordChange={({target}) => setPassword(target.value)}
+                        handleSubmit={handleLogin}
                     />
                 </div>
-                <div>
-                    password
-                    <input
-                        type="password"
-                        value={password}
-                        name="Password"
-                        onChange={({target}) => setPassword(target.value)}
-                    />
-                </div>
-                <button type="submit">login</button>
-            </form>
-        </React.Fragment>
-    )
+            )
+        }
+        return (
+            <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                <p>{user.name} logged-in</p>
+                <button onClick={() => {
+                    window.localStorage.clear()
+                    setUser(null)
+                }}>
+                    logout
+                </button>
+            </div>
+
+        )
+    }
+
+    const addBlog = (blogObject) => {
+        blogFormRef.current.toggleVisibility()
+        blogService
+            .create(blogObject)
+            .then(returnedBlog => {
+                setBlogs(blogs.concat(returnedBlog))
+            })
+            .catch(error => error)
+    }
 
     const blogAll = () => (
         blogs.map(blog =>
@@ -80,85 +92,22 @@ const App = () => {
         )
     )
 
-    const loggedIn = () => (
-        <div>
-            <p>{user.name} logged-in</p>
-            <button onClick={() => {
-                window.localStorage.clear()
-                setUser(null)
-            }}>
-                logout
-            </button>
-            <form onSubmit={handleCreateNew}>
-                <div>
-                    title
-                    <input
-                        type="text"
-                        value={title}
-                        name="Title"
-                        onChange={({target}) => setTitle(target.value)}
-                    />
-                </div>
-                <div>
-                    author
-                    <input
-                        type="text"
-                        value={author}
-                        name="Author"
-                        onChange={({target}) => setAuthor(target.value)}
-                    />
-                </div>
-                <div>
-                    url
-                    <input
-                        type="text"
-                        value={url}
-                        name="Url"
-                        onChange={({target}) => setUrl(target.value)}
-                    />
-                </div>
-                <button type="submit">create</button>
-            </form>
-        </div>
-    )
-
-    const handleCreateNew = async (event) => {
-        event.preventDefault()
-        try {
-            const returnedBlog = await blogService.create({
-                title,
-                author,
-                url
-            })
-            setTitle('')
-            setAuthor('')
-            setUrl('')
-            setMessage('New blog added')
-            setTimeout(() => {
-                setMessage(null)
-            }, 5000)
-
-        } catch (e) {
-            console.error('cant create new blog', e.message)
-            setMessage('cant create new blog')
-            setTimeout(() => {
-                setMessage(null)
-            }, 5000)
-        }
-
-    }
 
     return (
         <div>
-            <Notification message={message}/>
-            <h2>Login</h2>
-
-            {user === null
-                ? loginForm()
-                : loggedIn()
-            }
-
             <h2>blogs</h2>
+
+            <Notification message={message}/>
+
+            {login()}
+            {user &&
+                (
+                    <div>
+                        <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
+                            <BlogForm setMessage={setMessage} create={addBlog}/>
+                        </Togglable>
+                    </div>
+                )}
 
             {blogAll()}
         </div>
