@@ -6,7 +6,7 @@ const BlogForm = ({setMessage, create}) => {
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
-    const addBlog = async (event) => {
+    const handleAddBlog = async (event) => {
         event.preventDefault()
         try {
             create({
@@ -36,7 +36,7 @@ const BlogForm = ({setMessage, create}) => {
         <div>
             <h2>Create new</h2>
 
-            <form onSubmit={addBlog}>
+            <form onSubmit={handleAddBlog}>
                 <div>
                     title
                     <input

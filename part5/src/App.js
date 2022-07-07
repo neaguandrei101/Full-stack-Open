@@ -16,9 +16,7 @@ const App = () => {
     const blogFormRef = useRef()
 
     useEffect(() => {
-        blogService.getAll().then(blogs =>
-            setBlogs(blogs)
-        )
+        update()
     }, [])
 
     useEffect(() => {
@@ -64,7 +62,7 @@ const App = () => {
         }
         return (
             <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-                <p>{user.name} logged-in</p>
+                <h3>{user.name} logged-in</h3>
                 <button onClick={() => {
                     window.localStorage.clear()
                     setUser(null)
@@ -86,12 +84,21 @@ const App = () => {
             .catch(error => error)
     }
 
+    const removeBlog = async (blogToDelete, token) => {
+        await blogService.deleteBlog(blogToDelete, token)
+        setBlogs(blogs => blogs.filter(blog => blog !== blogToDelete))
+    }
+
+    const update = async () => {
+        const blogs = await blogService.getAll()
+        setBlogs(blogs)
+    }
+
     const blogAll = () => (
         blogs.map(blog =>
-            <Blog key={blog.id} blog={blog}/>
+            <Blog key={blog.id} blog={blog} user={user} remove={removeBlog} update={update}/>
         )
     )
-
 
     return (
         <div>
