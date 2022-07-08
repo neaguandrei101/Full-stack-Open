@@ -12,7 +12,8 @@ const BlogForm = ({setMessage, create}) => {
             create({
                 title,
                 author,
-                url
+                url,
+                likes: 0
             });
             setTitle('')
             setAuthor('')

@@ -16,7 +16,7 @@ const App = () => {
     const blogFormRef = useRef()
 
     useEffect(() => {
-        update()
+        getAllBlogs()
     }, [])
 
     useEffect(() => {
@@ -89,14 +89,26 @@ const App = () => {
         setBlogs(blogs => blogs.filter(blog => blog !== blogToDelete))
     }
 
-    const update = async () => {
-        const blogs = await blogService.getAll()
+    const updateBlog = async (id, newObject) => {
+        const updatedBlog = await blogService.update(id, newObject)
+
+        return updatedBlog
+    }
+
+    const getAllBlogs = async () => {
+        let blogs = await blogService.getAll()
+        blogs = blogs.sort((a, b) => b.likes - a.likes)
         setBlogs(blogs)
     }
 
     const blogAll = () => (
         blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} user={user} remove={removeBlog} update={update}/>
+            <Blog key={blog.id} blog={blog}
+                  user={user}
+                  remove={removeBlog}
+                  getAllBlogs={getAllBlogs}
+                  update={updateBlog}
+            />
         )
     )
 
