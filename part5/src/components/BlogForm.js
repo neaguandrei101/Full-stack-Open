@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react'
 
 const BlogForm = ({setMessage, create}) => {
 
@@ -14,7 +14,7 @@ const BlogForm = ({setMessage, create}) => {
                 author,
                 url,
                 likes: 0
-            });
+            })
             setTitle('')
             setAuthor('')
             setUrl('')

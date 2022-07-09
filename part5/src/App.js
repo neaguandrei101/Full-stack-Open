@@ -1,11 +1,11 @@
-import {useState, useEffect, useRef} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Notification from "./components/Notification";
-import LoginForm from "./components/LoginForm";
-import BlogForm from "./components/BlogForm";
-import Togglable from "./components/Togglable";
+import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -90,9 +90,7 @@ const App = () => {
     }
 
     const updateBlog = async (id, newObject) => {
-        const updatedBlog = await blogService.update(id, newObject)
-
-        return updatedBlog
+        return await blogService.update(id, newObject)
     }
 
     const getAllBlogs = async () => {
@@ -103,7 +101,8 @@ const App = () => {
 
     const blogAll = () => (
         blogs.map(blog =>
-            <Blog key={blog.id} blog={blog}
+            <Blog key={blog.id}
+                  blog={blog}
                   user={user}
                   remove={removeBlog}
                   getAllBlogs={getAllBlogs}

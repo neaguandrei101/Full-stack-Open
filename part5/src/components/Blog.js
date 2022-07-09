@@ -1,7 +1,7 @@
 const Blog = ({blog, user, remove, getAllBlogs, update}) => {
 
     const handleDelete = async (blog, token) => {
-        if (window.confirm("Do you really want to remove this?")) {
+        if (window.confirm('Do you really want to remove this?')) {
             await remove(blog, token)
             getAllBlogs()
         }
