@@ -32,7 +32,6 @@ const BlogForm = ({setMessage, create}) => {
 
     }
 
-
     return (
         <div>
             <h2>Create new</h2>
@@ -45,6 +44,7 @@ const BlogForm = ({setMessage, create}) => {
                         value={title}
                         name="Title"
                         onChange={({target}) => setTitle(target.value)}
+                        placeholder='write here the blog title content'
                     />
                 </div>
                 <div>
@@ -54,6 +54,7 @@ const BlogForm = ({setMessage, create}) => {
                         value={author}
                         name="Author"
                         onChange={({target}) => setAuthor(target.value)}
+                        placeholder='write here the blog author content'
                     />
                 </div>
                 <div>
@@ -63,6 +64,7 @@ const BlogForm = ({setMessage, create}) => {
                         value={url}
                         name="Url"
                         onChange={({target}) => setUrl(target.value)}
+                        placeholder='write here the blog URL content'
                     />
                 </div>
                 <button type="submit">create</button>

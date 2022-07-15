@@ -17,7 +17,7 @@ const Blog = ({blog, user, remove, getAllBlogs, update}) => {
 
     if (user && user.username === blog.user.username) {
         return (
-            <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+            <div className={'blog'} style={{display: 'flex', justifyContent: 'flex-start'}}>
                 {blog.title} {blog.author} {blog.likes}
                 <button onClick={() => handleDelete(blog, user.token)}>remove</button>
                 <button onClick={() => handleLike(blog)}>like</button>
@@ -26,7 +26,7 @@ const Blog = ({blog, user, remove, getAllBlogs, update}) => {
     }
 
     return (
-        <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+        <div className={'blog'} style={{display: 'flex', justifyContent: 'flex-start'}}>
             {blog.title} {blog.author} {blog.likes}
             <button onClick={() => handleLike(blog)}>like</button>
         </div>
