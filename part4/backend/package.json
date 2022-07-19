@@ -11,7 +11,8 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail --app pacific-springs-87048",
     "test": "cross-env NODE_ENV=test jest --verbose",
-    "testBK": "cross-env NODE_ENV=test node --nolazy --inspect-brk ./node_modules/jest/bin/jest.js --colors --verbose -- tests/supertest_blog_api.test.js"
+    "testBK": "cross-env NODE_ENV=test node --nolazy --inspect-brk ./node_modules/jest/bin/jest.js --colors --verbose -- tests/supertest_blog_api.test.js",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "author": "Andrei Neagu",
   "license": "MIT",
