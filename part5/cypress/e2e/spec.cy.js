@@ -38,4 +38,26 @@ describe('Blog app', function () {
             cy.contains('login')
         })
     })
+
+    describe('When logged in', function () {
+        beforeEach(() => {
+            cy.request('POST', 'http://localhost:3003/api/users', {
+                'username': 'root',
+                'name': 'Superuser',
+                'password': 'saline'
+            }).then(res => {
+                expect(res.status).to.equal(201)
+            })
+
+            cy.login({username: 'root', password: 'saline'})
+            cy.createBlog({title: 'cy test', author: 'bot', url: 'not in reality'})
+            cy.createBlog({title: 'cy test2', author: 'bot2', url: 'not in reality2'})
+
+        })
+
+        it('A blog can be created', function () {
+
+            cy.contains('cy test')
+        })
+    })
 })
