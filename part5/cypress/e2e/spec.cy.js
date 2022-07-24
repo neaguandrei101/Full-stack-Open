@@ -24,9 +24,21 @@ describe('Blog app', function () {
             cy.contains('cy test')
         })
 
-        it('users can like a blog',() => {
+        it('users can like a blog', () => {
             cy.contains('cy test').find('button').filter(':contains("like")').click()
             cy.contains('1')
+        })
+
+        it('blogs should be ordered by highest num of likes', () => {
+            cy.createBlog({title: 'blog3', author: 'test3', url: 'test3', likes: 0})
+
+            cy.contains('another blog').find('button').filter(':contains("like")').click()
+            cy.wait(100)
+
+            cy.get('.blog').eq(0).should('contain', 'another blog')
+            cy.get('.blog').eq(1).should('contain', 'cy test')
+            cy.get('.blog').eq(2).should('contain', 'blog3')
+
         })
 
         it('right user can delete a blog', () => {
