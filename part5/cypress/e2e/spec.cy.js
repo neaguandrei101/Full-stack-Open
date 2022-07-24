@@ -4,11 +4,6 @@ describe('Blog app', function () {
         cy.visit('http://localhost:3000')
     })
 
-    it('Login form is shown', function () {
-        cy.visit('http://localhost:3000')
-        cy.contains('login')
-    })
-
     describe('Login', function () {
         beforeEach(function () {
             cy.request('POST', 'http://localhost:3003/api/users', {
@@ -50,14 +45,18 @@ describe('Blog app', function () {
             })
 
             cy.login({username: 'root', password: 'saline'})
-            cy.createBlog({title: 'cy test', author: 'bot', url: 'not in reality'})
-            cy.createBlog({title: 'cy test2', author: 'bot2', url: 'not in reality2'})
+            cy.createBlog({title: 'cy test', author: 'bot', url: 'not in reality', likes: 0})
+            cy.createBlog({title: 'cy test2', author: 'bot2', url: 'not in reality2', likes: 0})
 
         })
 
         it('A blog can be created', function () {
-
             cy.contains('cy test')
+        })
+
+        it('users can like a blog',() => {
+            cy.contains('cy test').find('button').filter(':contains("like")').click()
+            cy.contains('1')
         })
     })
 })
