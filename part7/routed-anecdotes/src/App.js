@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {
     Routes, Route, Link,
-    useMatch
+    useMatch, useNavigate
 } from "react-router-dom"
 
 
@@ -138,9 +138,15 @@ const App = () => {
         ? anecdotes.find(anecdote => anecdote.id === Number(match.params.id))
         : null
 
+    const navigate = useNavigate()
+
     const addNew = (anecdote) => {
         anecdote.id = Math.round(Math.random() * 10000)
         setAnecdotes(anecdotes.concat(anecdote))
+
+        navigate('/')
+        setNotification('A new anecdote has been created.')
+        setTimeout(() => setNotification(''), 5000)
     }
 
     const anecdoteById = (id) => anecdotes.find(a => a.id === id)
@@ -161,6 +167,7 @@ const App = () => {
 
             <h1>Software anecdotes</h1>
             <Menu/>
+            {notification}
 
             <Routes> useParams
                 <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote}/>}/>
