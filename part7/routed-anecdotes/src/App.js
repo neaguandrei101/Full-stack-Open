@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {
-    BrowserRouter as Router,
-    Routes, Route, Link
+    Routes, Route, Link,
+    useMatch
 } from "react-router-dom"
 
 
@@ -23,7 +23,11 @@ const AnecdoteList = ({anecdotes}) => (
     <div>
         <h2>Anecdotes</h2>
         <ul>
-            {anecdotes.map(anecdote => <li key={anecdote.id}>{anecdote.content}</li>)}
+            {anecdotes.map(anecdote =>
+                <li key={anecdote.id}>
+                    <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+                </li>
+            )}
         </ul>
     </div>
 )
@@ -92,6 +96,23 @@ const CreateNew = (props) => {
 
 }
 
+const Anecdote = ({anecdote}) => {
+    if (!anecdote)
+        return (
+            <div>
+                <h1 style={{color: 'red'}}>ERROR Anecdote not found</h1>
+            </div>
+        )
+
+    return (
+        <div>
+            <h1>{anecdote.content}</h1>
+            has {anecdote.votes} votes
+        </div>
+    )
+}
+
+
 const App = () => {
     const [anecdotes, setAnecdotes] = useState([
         {
@@ -112,6 +133,11 @@ const App = () => {
 
     const [notification, setNotification] = useState('')
 
+    const match = useMatch('/anecdotes/:id')
+    const anecdote = match
+        ? anecdotes.find(anecdote => anecdote.id === Number(match.params.id))
+        : null
+
     const addNew = (anecdote) => {
         anecdote.id = Math.round(Math.random() * 10000)
         setAnecdotes(anecdotes.concat(anecdote))
@@ -131,19 +157,20 @@ const App = () => {
     }
 
     return (
-            <Router>
+        <div>
 
-                <h1>Software anecdotes</h1>
-                <Menu/>
+            <h1>Software anecdotes</h1>
+            <Menu/>
 
-                <Routes>
-                    <Route path="/"       element={<AnecdoteList anecdotes={anecdotes}/>}/>
-                    <Route path="/create" element={<CreateNew addNew={addNew}/>}/>
-                    <Route path="/about"  element={<About/>}/>
-                </Routes>
-                <Footer/>
+            <Routes> useParams
+                <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote}/>}/>
+                <Route path="/" element={<AnecdoteList anecdotes={anecdotes}/>}/>
+                <Route path="/create" element={<CreateNew addNew={addNew}/>}/>
+                <Route path="/about" element={<About/>}/>
+            </Routes>
+            <Footer/>
 
-            </Router>
+        </div>
     )
 }
 
