@@ -12,7 +12,6 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [message, setMessage] = useState(null);
   const blogFormRef = useRef();
 
   useEffect(() => {
@@ -115,13 +114,13 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-      <Notification message={message} />
+      <Notification />
 
       {login()}
       {user && (
         <div>
           <Togglable buttonLabel={"new blog"} ref={blogFormRef}>
-            <BlogForm setMessage={setMessage} create={addBlog} />
+            <BlogForm create={addBlog} />
           </Togglable>
         </div>
       )}

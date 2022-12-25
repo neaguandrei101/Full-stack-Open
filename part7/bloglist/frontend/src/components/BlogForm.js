@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../reducers/notificationSlice";
 
-const BlogForm = ({ setMessage, create }) => {
+const BlogForm = ({ create }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const dispatch = useDispatch();
 
   const handleAddBlog = async (event) => {
     event.preventDefault();
@@ -17,15 +20,15 @@ const BlogForm = ({ setMessage, create }) => {
       setTitle("");
       setAuthor("");
       setUrl("");
-      setMessage("New blog added");
+      dispatch(setMessage("New blog added"));
       setTimeout(() => {
-        setMessage(null);
+        dispatch(setMessage(null));
       }, 5000);
     } catch (e) {
       console.error("cant create new blog", e.message);
-      setMessage("cant create new blog");
+      dispatch(setMessage("cant create new blog"));
       setTimeout(() => {
-        setMessage(null);
+        dispatch(setMessage(null));
       }, 5000);
     }
   };
