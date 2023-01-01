@@ -16,7 +16,7 @@ export const notificationSlice = createSlice({
 
 export const notificationMessageWithDelay = (message) => {
   return (dispatch) => {
-    dispatch(setNotificationMessage("Created" + message));
+    dispatch(setNotificationMessage(message));
     setTimeout(() => {
       dispatch(setNotificationMessage(null));
     }, 3000);

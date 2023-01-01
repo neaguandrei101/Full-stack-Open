@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../redux/blogSlice";
+import { notificationMessageWithDelay } from "../redux/notificationSlice";
 
 const Blog = ({ blog }) => (
   <div>
@@ -18,6 +19,8 @@ const BlogList = () => {
   useEffect(() => {
     if (blogStatus === "idle") {
       dispatch(fetchBlogs());
+    } else if (blogStatus === "succeeded") {
+      dispatch(notificationMessageWithDelay("Created blog"));
     }
   }, [blogStatus, dispatch]);
 
@@ -25,8 +28,8 @@ const BlogList = () => {
     <div>
       <ul style={{ listStyleType: "none" }}>
         {blogs.map((blog) => (
-          <li>
-            <Blog key={blog.id} blog={blog} />
+          <li key={blog.id}>
+            <Blog blog={blog} />
           </li>
         ))}
       </ul>

@@ -5,15 +5,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import notificationReducer from "./redux/notificationSlice";
 import blogsReducer from "./redux/blogSlice";
-import { listenerMiddleware } from "./redux/blogListener";
+import userReducer from "./redux/userSlice";
 
 const store = configureStore({
   reducer: {
     notification: notificationReducer,
     blogs: blogsReducer,
+    user: userReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
