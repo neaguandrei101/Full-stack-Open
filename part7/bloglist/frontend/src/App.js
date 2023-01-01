@@ -6,17 +6,18 @@ import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
+import BlogList from "./components/BlogList";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
 
-  useEffect(() => {
-    getAllBlogs();
-  }, []);
+  // useEffect(() => {
+  //   getAllBlogs();
+  // }, []);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -59,8 +60,10 @@ const App = () => {
       );
     }
     return (
-      <div style={{ display: "flex", justifyContent: "flex-start" }}>
-        <h3>{user.name} logged-in</h3>
+      <div style={{ display: "flex", marginBottom: 10 }}>
+        <h3 style={{ marginTop: 0, marginBottom: 0, marginRight: 10 }}>
+          {user.name} logged-in
+        </h3>
         <button
           onClick={() => {
             window.localStorage.clear();
@@ -73,14 +76,8 @@ const App = () => {
     );
   };
 
-  const addBlog = (blogObject) => {
+  const toggleVisibility = () => {
     blogFormRef.current.toggleVisibility();
-    blogService
-      .create(blogObject)
-      .then((returnedBlog) => {
-        setBlogs(blogs.concat(returnedBlog));
-      })
-      .catch((error) => error);
   };
 
   const removeBlog = async (blogToDelete, token) => {
@@ -92,40 +89,40 @@ const App = () => {
     return await blogService.update(id, newObject);
   };
 
-  const getAllBlogs = async () => {
-    let blogs = await blogService.getAll();
-    blogs = blogs.sort((a, b) => b.likes - a.likes);
-    setBlogs(blogs);
-  };
+  // const getAllBlogs = async () => {
+  //   let blogs = await blogService.getAll();
+  //   blogs = blogs.sort((a, b) => b.likes - a.likes);
+  //   setBlogs(blogs);
+  // };
 
-  const blogAll = () =>
-    blogs.map((blog) => (
-      <Blog
-        key={blog.id}
-        blog={blog}
-        user={user}
-        remove={removeBlog}
-        getAllBlogs={getAllBlogs}
-        update={updateBlog}
-      />
-    ));
+  // const blogAll = () =>
+  //   blogs.map((blog) => (
+  //     <Blog
+  //       key={blog.id}
+  //       blog={blog}
+  //       user={user}
+  //       remove={removeBlog}
+  //       getAllBlogs={getAllBlogs}
+  //       update={updateBlog}
+  //     />
+  //   ));
 
   return (
     <div>
-      <h2>blogs</h2>
-
+      <h2>User</h2>
       <Notification />
 
       {login()}
       {user && (
         <div>
           <Togglable buttonLabel={"new blog"} ref={blogFormRef}>
-            <BlogForm create={addBlog} />
+            <BlogForm toggleVisibility={toggleVisibility} />
           </Togglable>
         </div>
       )}
 
-      {blogAll()}
+      <h2>Blogs</h2>
+      <BlogList />
     </div>
   );
 };

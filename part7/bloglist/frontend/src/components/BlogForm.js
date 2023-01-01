@@ -1,43 +1,30 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setMessage } from "../reducers/notificationSlice";
+import { createBlog } from "../redux/blogSlice";
 
-const BlogForm = ({ create }) => {
+const BlogForm = ({ toggleVisibility }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
   const dispatch = useDispatch();
 
-  const handleAddBlog = async (event) => {
+  const handleCreateBlog = (event) => {
     event.preventDefault();
-    try {
-      create({
-        title,
-        author,
-        url,
-        likes: 0,
-      });
-      setTitle("");
-      setAuthor("");
-      setUrl("");
-      dispatch(setMessage("New blog added"));
-      setTimeout(() => {
-        dispatch(setMessage(null));
-      }, 5000);
-    } catch (e) {
-      console.error("cant create new blog", e.message);
-      dispatch(setMessage("cant create new blog"));
-      setTimeout(() => {
-        dispatch(setMessage(null));
-      }, 5000);
-    }
+    const blog = {
+      title,
+      author,
+      url,
+      likes: 0,
+    };
+    dispatch(createBlog(blog));
+    toggleVisibility();
   };
 
   return (
     <div>
       <h2>Create new</h2>
 
-      <form onSubmit={handleAddBlog}>
+      <form onSubmit={handleCreateBlog}>
         <div>
           title
           <input
