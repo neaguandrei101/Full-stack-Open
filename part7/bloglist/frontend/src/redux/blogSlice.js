@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  current,
+  isPending,
+} from "@reduxjs/toolkit";
 import blogService from "../services/blogs";
 
 const initialState = {
@@ -13,9 +18,6 @@ export const blogSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchBlogs.pending, (state, action) => {
-        state.status = "loading";
-      })
       .addCase(fetchBlogs.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.blogs = state.blogs.concat(action.payload);
@@ -31,6 +33,30 @@ export const blogSlice = createSlice({
       .addCase(createBlog.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(deleteBlog.fulfilled, (state, action) => {
+        state.blogs = state.blogs.filter(
+          (blog) => action.payload.id !== blog.id
+        );
+        state.status = "deleted";
+      })
+      .addCase(deleteBlog.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(likeBlog.fulfilled, (state, action) => {
+        const previousBlogs = current(state.blogs);
+        state.blogs = previousBlogs.map((blog) => {
+          return blog.id === action.payload.id ? action.payload : blog;
+        });
+        state.status = "liked";
+      })
+      .addCase(likeBlog.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addMatcher(isPending, (state, action) => {
+        state.status = "pending";
       });
   },
 });
@@ -44,3 +70,21 @@ export const fetchBlogs = createAsyncThunk("blogs/fetchBlogs", async () => {
 export const createBlog = createAsyncThunk("blogs/createBlog", async (blog) => {
   return await blogService.create(blog);
 });
+
+export const deleteBlog = createAsyncThunk("blogs/deleteBlog", async (args) => {
+  const response = await blogService.deleteBlog(args.blog, args.token);
+  if (response.status === 204) {
+    return args.blog;
+  }
+});
+
+export const likeBlog = createAsyncThunk(
+  "blogs/likeBlog",
+  async (id, thunkAPI) => {
+    const blog = thunkAPI.getState().blogs.blogs.find((blog) => blog.id === id);
+    const initialLikes = blog.likes;
+    const userId = blog.user.id;
+    const updatedBlog = { ...blog, likes: initialLikes + 1, user: userId };
+    return await blogService.update(id, updatedBlog);
+  }
+);
