@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/userSlice";
+import { loginUser } from "../redux/loginSlice";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
   const handleLogin = async (event) => {

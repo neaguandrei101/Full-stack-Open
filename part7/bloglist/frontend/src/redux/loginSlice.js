@@ -7,8 +7,8 @@ const initialState = {
   error: null,
 };
 
-export const userSlice = createSlice({
-  name: "user",
+export const loginSlice = createSlice({
+  name: "login",
   initialState,
   reducers: {
     setUser: (state, action) => {
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const loginUser = createAsyncThunk("user/loginUser", async (user) => {
+export const loginUser = createAsyncThunk("login/loginUser", async (user) => {
   return await loginService.login(user);
 });
 
@@ -41,6 +41,6 @@ export const logout = () => (dispatch) => {
   dispatch(resetState());
 };
 
-export const { setUser, resetState } = userSlice.actions;
+export const { setUser, resetState } = loginSlice.actions;
 
-export default userSlice.reducer;
+export default loginSlice.reducer;

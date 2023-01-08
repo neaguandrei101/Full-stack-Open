@@ -1,36 +1,30 @@
-import { useRef } from "react";
 import Notification from "./components/Notification";
-import BlogForm from "./components/BlogForm";
-import Togglable from "./components/Togglable";
 import BlogList from "./components/BlogList";
 import Login from "./components/Login";
-import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Users from "./components/Users";
+import Navigation from "./components/Navigation";
+import React from "react";
+
+const Home = () => (
+  <React.Fragment>
+    <Notification />
+    <Login />
+    <BlogList />
+  </React.Fragment>
+);
 
 const App = () => {
-  const user = useSelector((state) => state.user.user);
-  const blogFormRef = useRef();
-
-  const toggleVisibility = () => {
-    blogFormRef.current.toggleVisibility();
-  };
-
   return (
-    <div>
-      <h2>User</h2>
-      <Notification />
-
-      <Login />
-      {user && (
-        <div>
-          <Togglable buttonLabel={"new blog"} ref={blogFormRef}>
-            <BlogForm toggleVisibility={toggleVisibility} />
-          </Togglable>
-        </div>
-      )}
-
-      <h2>Blogs</h2>
-      <BlogList />
-    </div>
+    <Router>
+      <div>
+        <Navigation />
+        <Routes>
+          <Route path="/users" element={<Users />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

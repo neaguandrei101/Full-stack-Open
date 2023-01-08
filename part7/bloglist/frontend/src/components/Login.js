@@ -1,12 +1,12 @@
 import LoginForm from "./LoginForm";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, setUser } from "../redux/userSlice";
+import { logout, setUser } from "../redux/loginSlice";
 import blogService from "../services/blogs";
 import { useEffect } from "react";
 
 const Login = () => {
-  const user = useSelector((state) => state.user.user);
-  const userStatus = useSelector((state) => state.user.status);
+  const user = useSelector((state) => state.login.user);
+  const userStatus = useSelector((state) => state.login.status);
   const dispatch = useDispatch();
 
   useEffect(() => {
