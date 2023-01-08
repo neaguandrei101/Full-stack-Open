@@ -19,7 +19,7 @@ export const blogSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchBlogs.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.status = "fetched";
         state.blogs = state.blogs.concat(action.payload);
       })
       .addCase(fetchBlogs.rejected, (state, action) => {
@@ -27,7 +27,7 @@ export const blogSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(createBlog.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.status = "created";
         state.blogs = state.blogs.concat(action.payload);
       })
       .addCase(createBlog.rejected, (state, action) => {

@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import blogService from "./services/blogs";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
@@ -13,15 +12,6 @@ const App = () => {
 
   const toggleVisibility = () => {
     blogFormRef.current.toggleVisibility();
-  };
-
-  const removeBlog = async (blogToDelete, token) => {
-    await blogService.deleteBlog(blogToDelete, token);
-    setBlogs((blogs) => blogs.filter((blog) => blog !== blogToDelete));
-  };
-
-  const updateBlog = async (id, newObject) => {
-    return await blogService.update(id, newObject);
   };
 
   return (

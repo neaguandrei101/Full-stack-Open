@@ -40,7 +40,7 @@ const BlogList = () => {
   useEffect(() => {
     if (blogStatus === "idle") {
       dispatch(fetchBlogs());
-    } else if (blogStatus === "succeeded") {
+    } else if (blogStatus === "created") {
       dispatch(notificationMessageWithDelay("Created blog"));
     }
   }, [blogStatus, dispatch]);
