@@ -89,4 +89,4 @@ typings/
 .vscode/launch.json
 
 .idea/
-/part7/backend/requests/
+**/requests/
