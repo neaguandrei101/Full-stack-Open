@@ -5,6 +5,7 @@ import {
   isPending,
 } from "@reduxjs/toolkit";
 import blogService from "../services/blogs";
+import { fetchUsers } from "./usersSlice";
 
 const initialState = {
   blogs: [],
@@ -67,16 +68,25 @@ export const fetchBlogs = createAsyncThunk("blogs/fetchBlogs", async () => {
   return await blogService.getAll();
 });
 
-export const createBlog = createAsyncThunk("blogs/createBlog", async (blog) => {
-  return await blogService.create(blog);
-});
-
-export const deleteBlog = createAsyncThunk("blogs/deleteBlog", async (args) => {
-  const response = await blogService.deleteBlog(args.blog, args.token);
-  if (response.status === 204) {
-    return args.blog;
+export const createBlog = createAsyncThunk(
+  "blogs/createBlog",
+  async (blog, thunkAPI) => {
+    const createdBlog = await blogService.create(blog);
+    thunkAPI.dispatch(fetchUsers());
+    return createdBlog;
   }
-});
+);
+
+export const deleteBlog = createAsyncThunk(
+  "blogs/deleteBlog",
+  async (args, thunkAPI) => {
+    const response = await blogService.deleteBlog(args.blog, args.token);
+    if (response.status === 204) {
+      thunkAPI.dispatch(fetchUsers());
+      return args.blog;
+    }
+  }
+);
 
 export const likeBlog = createAsyncThunk(
   "blogs/likeBlog",
@@ -85,6 +95,9 @@ export const likeBlog = createAsyncThunk(
     const initialLikes = blog.likes;
     const userId = blog.user.id;
     const updatedBlog = { ...blog, likes: initialLikes + 1, user: userId };
-    return await blogService.update(id, updatedBlog);
+
+    const returnedBlog = await blogService.update(id, updatedBlog);
+    thunkAPI.dispatch(fetchUsers());
+    return returnedBlog;
   }
 );
