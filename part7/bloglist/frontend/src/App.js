@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Users from "./components/Users";
 import Navigation from "./components/Navigation";
 import React from "react";
+import User from "./components/User";
 
 const Home = () => (
   <React.Fragment>
@@ -21,6 +22,7 @@ const App = () => {
         <Navigation />
         <Routes>
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<User />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
