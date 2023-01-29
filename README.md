@@ -1,3 +1,3 @@
+![Andrei Neagu Certificate](./certificate-fullstack.png)
 Full stack Open https://fullstackopen.com/en/
-WIP
-Many web technologies
+The best free course to learn modern web technologies.
