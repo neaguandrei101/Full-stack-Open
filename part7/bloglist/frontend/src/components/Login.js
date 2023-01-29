@@ -35,7 +35,7 @@ const Login = () => {
     );
   }
   return (
-    <div style={{ display: "flex", marginBottom: 10 }}>
+    <div style={{ display: "flex", marginBottom: 10, marginTop: 5 }}>
       <h3 style={{ marginTop: 0, marginBottom: 0, marginRight: 10 }}>
         {user.name} logged-in
       </h3>

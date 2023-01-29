@@ -1,38 +1,54 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBlogs, deleteBlog, likeBlog } from "../redux/blogSlice";
+import { deleteBlog, fetchBlogs, likeBlog } from "../redux/blogSlice";
 import { notificationMessageWithDelay } from "../redux/notificationSlice";
 import Togglable from "./Togglable";
 import BlogForm from "./BlogForm";
+import { Link } from "react-router-dom";
 
-const Blog = ({ blog }) => {
+const SimpleBlog = ({ blog }) => {
   const loggedInUser = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
+  const borderStyle = {
+    borderStyle: "solid",
+    margin: "0.5em",
+    padding: "0.25em",
+    borderWidth: 1,
+  };
+
   if (loggedInUser && loggedInUser.username === blog.user.username) {
     return (
-      <div>
-        {blog.title} {blog.author} {blog.likes}
+      <div style={borderStyle}>
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> {blog.author}{" "}
+        {blog.likes}
         <button
+          style={{ marginLeft: "0.5em" }}
           onClick={() =>
             dispatch(deleteBlog({ blog: blog, token: loggedInUser.token }))
           }
         >
           remove
         </button>
-        <button onClick={() => dispatch(likeBlog(blog.id))}>like</button>
+        <button
+          style={{ marginLeft: "0.5em" }}
+          onClick={() => dispatch(likeBlog(blog.id))}
+        >
+          like
+        </button>
       </div>
     );
   }
 
   return (
-    <div>
-      {blog.title} {blog.author} {blog.likes}
+    <div style={borderStyle}>
+      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> {blog.author}{" "}
+      {blog.likes}
     </div>
   );
 };
 
-const BlogList = () => {
+const Blogs = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) =>
     [...state.blogs.blogs].sort((a, b) => b.likes - a.likes)
@@ -63,11 +79,10 @@ const BlogList = () => {
         </div>
       )}
       <h2>Blogs</h2>
-
       <ul style={{ listStyleType: "none" }}>
         {blogs.map((blog) => (
           <li key={blog.id}>
-            <Blog blog={blog} />
+            <SimpleBlog blog={blog} />
           </li>
         ))}
       </ul>
@@ -75,4 +90,4 @@ const BlogList = () => {
   );
 };
 
-export default BlogList;
+export default Blogs;
