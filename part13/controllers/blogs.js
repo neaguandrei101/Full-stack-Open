@@ -1,4 +1,4 @@
-const { Blog } = require("../models/Blog");
+const Blog = require("../models/Blog");
 const router = require("express").Router();
 
 router.get("/", async function (req, res) {
@@ -27,6 +27,23 @@ router.delete("/:id", async function (req, res) {
   } catch (e) {
     console.error(e);
     res.status(400).json(e);
+  }
+});
+
+router.put("/:id", async function (req, res) {
+  const blog = await Blog.findByPk(req.params.id);
+
+  if (blog) {
+    try {
+      blog.likes = req.body.likes;
+      const updatedBlog = await blog.save();
+      res.json(updatedBlog);
+    } catch (e) {
+      console.error(e);
+      res.status(400).json(e);
+    }
+  } else {
+    res.status(404).end();
   }
 });
 
