@@ -39,6 +39,9 @@ router.put("/:username", async (req, res) => {
     const updatedUser = await user.update(updateValues);
     res.json(updatedUser);
   } catch (error) {
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json({ message: error.message });
+    }
     res.status(400).json({ error });
   }
 });
