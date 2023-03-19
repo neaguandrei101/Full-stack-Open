@@ -32,6 +32,4 @@ const Blog = sequelize.define(
   }
 );
 
-void Blog.sync();
-
 module.exports = Blog;

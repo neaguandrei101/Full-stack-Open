@@ -1,18 +1,27 @@
-const Blog = require("../models/Blog");
+const { Blog, User } = require("../models/modelConfig");
 const router = require("express").Router();
 
 router.get("/", async function (req, res) {
-  const blogs = await Blog.findAll();
+  const blogs = await Blog.findAll({
+    attributes: { exclude: ["userId"] },
+    include: {
+      model: User,
+      attributes: ["name"],
+    },
+  });
 
   res.json(blogs);
 });
 
 router.post("/", async function (req, res) {
-  const blog = Blog.build(req.body);
-
   try {
-    const savedBlog = await blog.save();
-    res.json(savedBlog);
+    const user = await User.findByPk(req.decodedToken.id);
+    const blog = await Blog.create({
+      ...req.body,
+      userId: user.id,
+      date: new Date(),
+    });
+    res.json(blog);
   } catch (e) {
     console.error(e);
     res.status(400).json(e);
