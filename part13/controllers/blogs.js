@@ -1,4 +1,5 @@
 const { Blog, User } = require("../models/modelConfig");
+const { tokenExtractor } = require("../util/middlewares");
 const router = require("express").Router();
 
 router.get("/", async function (req, res) {
@@ -28,11 +29,25 @@ router.post("/", async function (req, res) {
   }
 });
 
-router.delete("/:id", async function (req, res) {
+router.delete("/:id", tokenExtractor, async function (req, res) {
+  const blog = await Blog.findByPk(req.params.id);
+
+  if (!blog) {
+    res.status(404).end();
+  }
+
+  if (req.decodedToken.id !== blog.userId) {
+    res
+      .status(401)
+      .json({
+        error:
+          "deletion of a blog only possible for the user who added the blog",
+      });
+  }
+
   try {
-    const blog = await Blog.findByPk(req.params.id);
-    const deletedBlogs = blog.destroy();
-    res.status(204).json({ message: `deleted blogs: ${deletedBlogs}` });
+    const deletedBlog = blog.destroy();
+    res.status(204).json({ message: `deleted blog: ${deletedBlog}` });
   } catch (e) {
     console.error(e);
     res.status(400).json(e);

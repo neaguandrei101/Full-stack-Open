@@ -1,3 +1,6 @@
+const { SECRET } = require("./config");
+const jwt = require("jsonwebtoken");
+
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
