@@ -3,8 +3,10 @@ const { User, Blog } = require("../models/modelConfig");
 
 router.get("/", async (req, res) => {
   const users = await User.findAll({
-    include: { model: Blog },
-    attributes: { exclude: ["userId"] },
+    include: {
+      model: Blog,
+      attributes: { exclude: ["userId"] },
+    },
   });
 
   if (users) {
