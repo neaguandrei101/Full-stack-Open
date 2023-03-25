@@ -26,6 +26,7 @@ router.get("/", async function (req, res) {
       attributes: ["name"],
     },
     where,
+    order: [["likes", "DESC"]],
   });
 
   res.json(blogs);
