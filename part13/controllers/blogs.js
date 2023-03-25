@@ -1,14 +1,24 @@
 const { Blog, User } = require("../models/modelConfig");
 const { tokenExtractor } = require("../util/middlewares");
+const { Op } = require("sequelize");
 const router = require("express").Router();
 
 router.get("/", async function (req, res) {
+  const where = {};
+
+  if (req.query.search) {
+    where.title = {
+      [Op.substring]: req.query.search,
+    };
+  }
+
   const blogs = await Blog.findAll({
     attributes: { exclude: ["userId"] },
     include: {
       model: User,
       attributes: ["name"],
     },
+    where,
   });
 
   res.json(blogs);
@@ -37,12 +47,9 @@ router.delete("/:id", tokenExtractor, async function (req, res) {
   }
 
   if (req.decodedToken.id !== blog.userId) {
-    res
-      .status(401)
-      .json({
-        error:
-          "deletion of a blog only possible for the user who added the blog",
-      });
+    res.status(401).json({
+      error: "deletion of a blog only possible for the user who added the blog",
+    });
   }
 
   try {
