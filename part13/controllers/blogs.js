@@ -32,7 +32,7 @@ router.get("/", async function (req, res) {
   res.json(blogs);
 });
 
-router.post("/", async function (req, res) {
+router.post("/", tokenExtractor, async function (req, res) {
   try {
     const user = await User.findByPk(req.decodedToken.id);
     const blog = await Blog.create({

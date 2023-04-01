@@ -28,7 +28,6 @@ const Blog = sequelize.define(
   },
   {
     underscored: true,
-    timestamps: false,
   }
 );
 
