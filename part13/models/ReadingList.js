@@ -19,6 +19,8 @@ const ReadingList = sequelize.define(
   },
   {
     timestamps: false,
+    tableName: "reading_list",
+    underscored: true,
   }
 );
 

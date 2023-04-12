@@ -3,10 +3,20 @@ const { User, Blog } = require("../models/modelConfig");
 
 router.get("/", async (req, res) => {
   const users = await User.findAll({
-    include: {
-      model: Blog,
-      attributes: { exclude: ["userId"] },
-    },
+    include: [
+      {
+        model: Blog,
+        attributes: { exclude: ["userId"] },
+      },
+      {
+        model: Blog,
+        as: "blogsToRead",
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        through: {
+          attributes: ["read"], //TODO add id in readingList instead of composite key
+        },
+      },
+    ],
   });
 
   if (users) {
