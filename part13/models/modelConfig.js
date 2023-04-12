@@ -4,8 +4,8 @@ const User = require("./User");
 User.hasMany(Blog);
 Blog.belongsTo(User);
 
-// void Blog.sync({ alter: true });
-// void User.sync({ alter: true });
+User.belongsToMany(Blog, { through: "reading_list" });
+Blog.belongsToMany(User, { through: "reading_list" });
 
 module.exports = {
   Blog,
