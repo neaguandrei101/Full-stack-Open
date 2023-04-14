@@ -1,3 +1,3 @@
 const { rollbackMigration } = require("./db");
 
-await rollbackMigration();
+void rollbackMigration();

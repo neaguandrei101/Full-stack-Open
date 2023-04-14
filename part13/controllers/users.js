@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
         as: "blogsToRead",
         attributes: { exclude: ["createdAt", "updatedAt"] },
         through: {
-          attributes: ["read"], //TODO add id in readingList instead of composite key
+          attributes: ["read", "id"],
         },
       },
     ],
