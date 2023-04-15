@@ -4,13 +4,18 @@ const { sequelize } = require("../util/db");
 const ReadingList = sequelize.define(
   "readingList",
   {
-    userId: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: { model: "users", key: "id" },
     },
     blogId: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      references: { model: "blogs", key: "id" },
     },
     read: {
       type: DataTypes.BOOLEAN,
