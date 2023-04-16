@@ -26,6 +26,41 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  let users;
+
+  if (req.params.id) {
+    users = await User.findAll({
+      where: {
+        id: Number(req.params.id),
+      },
+      include: [
+        {
+          model: Blog,
+          attributes: { exclude: ["userId"] },
+        },
+        {
+          model: Blog,
+          as: "blogsToRead",
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+          through: {
+            where: whereConditions(req),
+            attributes: ["read"],
+          },
+        },
+      ],
+    });
+  }
+
+  res.json(users);
+});
+
+const whereConditions = (req) => {
+  if (req.query.read === "false") return { read: "false" };
+  else if (req.query.read === "true") return { read: "true" };
+  else return {};
+};
+
 router.post("/", async (req, res) => {
   try {
     const user = await User.create(req.body);
