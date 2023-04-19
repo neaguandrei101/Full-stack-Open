@@ -1,5 +1,6 @@
 const { Blog, User } = require("../models/modelConfig");
 const { tokenExtractor } = require("../util/middlewares");
+const cookieParser = require("cookie-parser");
 const { Op } = require("sequelize");
 const router = require("express").Router();
 
@@ -32,9 +33,11 @@ router.get("/", async function (req, res) {
   res.json(blogs);
 });
 
-router.post("/", tokenExtractor, async function (req, res) {
+router.post("/", cookieParser(), async function (req, res) {
+  const sessionId = req.cookies.PersistentSessionID;
+  // TODO handling for disabled users
   try {
-    const user = await User.findByPk(req.decodedToken.id);
+    const user = await User.findByPk();
     const blog = await Blog.create({
       ...req.body,
       userId: user.id,

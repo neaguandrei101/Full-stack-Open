@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken");
 const router = require("express").Router();
+const crypto = require("crypto");
 
 const { SECRET } = require("../util/config");
 const { User } = require("../models/modelConfig");
 
-router.post("/", async (request, response) => {
+router.post("/jwt", async (request, response) => {
   const body = request.body;
 
   const user = await User.findOne({
@@ -31,6 +32,13 @@ router.post("/", async (request, response) => {
   response
     .status(200)
     .send({ token, username: user.username, name: user.name });
+});
+
+router.post("/srv-sess", (req, res) => {
+  const sessionId = crypto.randomBytes(8).toString("base64");
+
+  res.cookie("PersistentSessionID", sessionId);
+  res.sendStatus(200);
 });
 
 module.exports = router;
