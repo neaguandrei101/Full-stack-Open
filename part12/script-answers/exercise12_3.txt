@@ -1,0 +1,451 @@
+Script started on 2023-04-23 18:37:12+03:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="230" LINES="59"]
+[?2004h]0;andrei@andrei-ThinkPad-T480: ~[01;32mandrei@andrei-ThinkPad-T480[00m:[01;34m~[00m$ lsmv exercise12_12.txt exercise12_2.txt
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls[Kscript exercise12_12.txtls[Kmv exercise12_12.txt exercise12_2.txt
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls[K[Kdocker staer[K[K[Kart i[K-i intelligent_kalam 
+[?2004l
+[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# 
+[K]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# apt install nano
+[?2004l
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 97%
+
+Reading package lists... Done
+
+
+Building dependency tree... 0%
+
+Building dependency tree... 0%
+
+Building dependency tree... 50%
+
+Building dependency tree... 50%
+
+Building dependency tree... Done
+
+
+Reading state information... 0% 
+
+Reading state information... 0%
+
+Reading state information... Done
+
+Package nano is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+[1;31mE: [0mPackage 'nano' has no installation candidate[0m
+[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# [7mnano /usr/src/app/index.js[27mnano /usr/src/app/index.js
+[?2004l
+bash: nano: command not found
+[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# [Kapd update
+[?2004l
+bash: apd: command not found
+[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# apt update
+[?2004l
+[33m
+0% [Working][0m
+            
+Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+[33m
+0% [1 InRelease 11.2 kB/270 kB 4%] [Waiting for headers][0m
+                                                        
+Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+[33m
+0% [1 InRelease 57.3 kB/270 kB 21%] [2 InRelease 11.2 kB/110 kB 10%][0m[33m
+                                                                    
+0% [2 InRelease 14.0 kB/110 kB 13%][0m
+                                   
+Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
+[33m
+0% [3 InRelease 6904 B/119 kB 6%] [2 InRelease 25.4 kB/110 kB 23%][0m[33m
+                                                                  
+0% [2 InRelease 28.2 kB/110 kB 26%][0m[33m
+0% [Waiting for headers] [2 InRelease 39.7 kB/110 kB 36%][0m
+                                                         
+Get:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [108 kB]
+[33m
+0% [4 InRelease 6904 B/108 kB 6%] [2 InRelease 42.5 kB/110 kB 39%][0m[33m
+                                                                  
+0% [2 InRelease 42.5 kB/110 kB 39%][0m[33m
+0% [Waiting for headers] [2 InRelease 48.2 kB/110 kB 44%][0m
+                                                         
+Get:5 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+[33m
+0% [5 Packages 14.2 kB/17.5 MB 0%] [2 InRelease 65.4 kB/110 kB 59%][0m[33m
+                                                                   
+0% [5 Packages 360 kB/17.5 MB 2%] [2 InRelease 82.5 kB/110 kB 75%][0m[33m
+                                                                  
+0% [5 Packages 947 kB/17.5 MB 5%][0m[33m
+22% [5 Packages 2834 kB/17.5 MB 16%][0m
+                                    
+Get:6 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [23.2 kB]
+[33m
+35% [5 Packages 7027 kB/17.5 MB 40%] [6 Packages 2649 B/23.2 kB 11%][0m[33m
+                                                                    
+37% [5 Packages 7739 kB/17.5 MB 44%][0m[33m
+37% [6 Packages store 0 B] [5 Packages 7739 kB/17.5 MB 44%] [Waiting for headers][0m[33m
+                                                                                 
+38% [5 Packages 7780 kB/17.5 MB 45%] [Waiting for headers][0m
+                                                          
+Get:7 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [911 kB]
+[33m
+50% [5 Packages 11.8 MB/17.5 MB 68%] [7 Packages 2647 B/911 kB 0%][0m[33m
+                                                                  
+67% [Waiting for headers] [7 Packages 223 kB/911 kB 24%][0m
+                                                        
+Get:8 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+[33m
+68% [8 Packages 116 kB/164 kB 70%] [7 Packages 223 kB/911 kB 24%][0m[33m
+68% [5 Packages store 0 B] [8 Packages 116 kB/164 kB 70%] [7 Packages 223 kB/911 kB 24%][0m[33m
+                                                                                        
+68% [5 Packages store 0 B] [Waiting for headers] [7 Packages 223 kB/911 kB 24%][0m
+                                                                               
+Get:9 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+[33m
+68% [5 Packages store 0 B] [9 Packages 16.7 kB/266 kB 6%] [7 Packages 223 kB/911 kB 24%][0m[33m
+                                                                                        
+69% [5 Packages store 0 B] [Waiting for headers] [7 Packages 231 kB/911 kB 25%][0m
+                                                                               
+Get:10 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+[33m
+69% [5 Packages store 0 B] [10 Packages 8561 B/1792 kB 0%] [7 Packages 231 kB/911 kB 25%][0m[33m
+                                                                                         
+74% [5 Packages store 0 B] [Waiting for headers] [7 Packages 318 kB/911 kB 35%][0m
+                                                                               
+Get:11 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [1054 kB]
+[33m
+75% [5 Packages store 0 B] [11 Packages 52.1 kB/1054 kB 5%] [7 Packages 318 kB/911 kB 35%][0m[33m
+                                                                                          
+78% [5 Packages store 0 B] [Waiting for headers] [7 Packages 424 kB/911 kB 47%][0m
+                                                                               
+Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [1301 kB]
+[33m
+78% [5 Packages store 0 B] [12 Packages 12.8 kB/1301 kB 1%] [7 Packages 424 kB/911 kB 47%][0m[33m
+                                                                                          
+82% [5 Packages store 0 B] [Waiting for headers] [7 Packages 550 kB/911 kB 60%][0m
+                                                                               
+Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1153 kB]
+[33m
+82% [5 Packages store 0 B] [13 Packages 40.4 kB/1153 kB 4%] [7 Packages 550 kB/911 kB 60%][0m[33m
+                                                                                          
+86% [5 Packages store 0 B] [Waiting for headers] [7 Packages 672 kB/911 kB 74%][0m
+                                                                               
+Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [28.6 kB]
+[33m
+86% [5 Packages store 0 B] [14 Packages 20.0 kB/28.6 kB 70%] [7 Packages 672 kB/911 kB 74%][0m[33m
+                                                                                           
+86% [5 Packages store 0 B] [7 Packages 672 kB/911 kB 74%][0m[33m
+87% [5 Packages store 0 B] [Waiting for headers] [Waiting for headers][0m
+                                                                      
+Get:15 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [1000 kB]
+[33m
+87% [5 Packages store 0 B] [Waiting for headers] [15 Packages 3431 B/1000 kB 0%][0m
+                                                                                
+Get:16 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [25.6 kB]
+[33m
+87% [5 Packages store 0 B] [16 Packages 14.2 kB/25.6 kB 56%] [15 Packages 136 kB/1000 kB 14%][0m[33m
+                                                                                             
+88% [5 Packages store 0 B] [15 Packages 465 kB/1000 kB 46%][0m
+                                                           
+Get:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [49.4 kB]
+[33m
+89% [5 Packages store 0 B] [17 Packages 2673 B/49.4 kB 5%] [15 Packages 773 kB/1000 kB 77%][0m[33m
+                                                                                           
+90% [5 Packages store 0 B] [17 Packages 34.4 kB/49.4 kB 70%] [Waiting for headers][0m
+                                                                                  
+Get:18 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [959 kB]
+[33m
+90% [5 Packages store 0 B] [17 Packages 34.4 kB/49.4 kB 70%] [18 Packages 8396 B/959 kB 1%][0m[33m
+                                                                                           
+90% [5 Packages store 0 B] [18 Packages 184 kB/959 kB 19%][0m[33m
+                                                          
+93% [5 Packages store 0 B][0m[33m
+                          
+93% [Working][0m[33m
+93% [8 Packages store 0 B][0m[33m
+                          
+94% [Working][0m[33m
+94% [9 Packages store 0 B][0m[33m
+                          
+94% [Working][0m[33m
+94% [10 Packages store 0 B][0m[33m
+                           
+95% [Working][0m[33m
+95% [11 Packages store 0 B][0m[33m
+                           
+96% [Working][0m[33m
+96% [12 Packages store 0 B][0m[33m
+                           
+96% [Working][0m[33m
+96% [13 Packages store 0 B][0m[33m
+                           
+97% [Working][0m[33m
+97% [14 Packages store 0 B][0m[33m
+                           
+97% [Working][0m[33m
+97% [7 Packages store 0 B][0m[33m
+                          
+98% [Working][0m[33m
+98% [16 Packages store 0 B][0m[33m
+                           
+98% [Working][0m[33m
+98% [15 Packages store 0 B][0m[33m
+                           
+99% [Working][0m[33m
+99% [17 Packages store 0 B][0m[33m
+                           
+99% [Working][0m[33m
+99% [18 Packages store 0 B][0m[33m
+                           
+100% [Working][0m
+              
+Fetched 26.8 MB in 2s (11.6 MB/s)
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 6%
+
+Reading package lists... 6%
+
+Reading package lists... 7%
+
+Reading package lists... 7%
+
+Reading package lists... 69%
+
+Reading package lists... 69%
+
+Reading package lists... 70%
+
+Reading package lists... 70%
+
+Reading package lists... 75%
+
+Reading package lists... 75%
+
+Reading package lists... 80%
+
+Reading package lists... 80%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 90%
+
+Reading package lists... 90%
+
+Reading package lists... 95%
+
+Reading package lists... 95%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... Done
+
+
+Building dependency tree... 0%
+
+Building dependency tree... 0%
+
+Building dependency tree... 0%
+
+Building dependency tree... 50%
+
+Building dependency tree... 50%
+
+Building dependency tree... Done
+
+
+Reading state information... 0% 
+
+Reading state information... 0%
+
+Reading state information... Done
+
+4 packages can be upgraded. Run 'apt list --upgradable' to see them.
+[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# apt updated updatenano /usr/src/app/index.js[10Papt install nano
+[?2004l
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 0%
+
+Reading package lists... 6%
+
+Reading package lists... 6%
+
+Reading package lists... 7%
+
+Reading package lists... 7%
+
+Reading package lists... 69%
+
+Reading package lists... 69%
+
+Reading package lists... 70%
+
+Reading package lists... 70%
+
+Reading package lists... 75%
+
+Reading package lists... 75%
+
+Reading package lists... 80%
+
+Reading package lists... 80%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 86%
+
+Reading package lists... 90%
+
+Reading package lists... 90%
+
+Reading package lists... 95%
+
+Reading package lists... 95%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... 99%
+
+Reading package lists... Done
+
+
+Building dependency tree... 0%
+
+Building dependency tree... 0%
+
+Building dependency tree... 50%
+
+Building dependency tree... 50%
+
+Building dependency tree... 52%
+
+Building dependency tree... Done
+
+
+Reading state information... 0% 
+
+Reading state information... 0%
+
+Reading state information... Done
+
+Suggested packages:
+  hunspell
+The following NEW packages will be installed:
+  nano
+0 upgraded, 1 newly installed, 0 to remove and 4 not upgraded.
+Need to get 280 kB of archives.
+After this operation, 881 kB of additional disk space will be used.
+[33m
+0% [Working][0m
+            
+Get:1 http://archive.ubuntu.com/ubuntu jammy/main amd64 nano amd64 6.2-1 [280 kB]
+[33m
+1% [1 nano 4096 B/280 kB 1%][0m[33m
+25% [1 nano 89.0 kB/280 kB 32%][0m[33m
+                               
+100% [Working][0m
+              
+Fetched 280 kB in 1s (242 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+
+7[0;58r8[1ASelecting previously unselected package nano.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 4395 files and directories currently installed.)
+Preparing to unpack .../archives/nano_6.2-1_amd64.deb ...
+7[59;0f[42m[30mProgress: [  0%][49m[39m [................................................................................................................................................................................................................] 87[59;0f[42m[30mProgress: [ 20%][49m[39m [#########################################.......................................................................................................................................................................] 8Unpacking nano (6.2-1) ...
+7[59;0f[42m[30mProgress: [ 40%][49m[39m [###################################################################################.............................................................................................................................] 8Setting up nano (6.2-1) ...
+7[59;0f[42m[30mProgress: [ 60%][49m[39m [############################################################################################################################....................................................................................] 8update-alternatives: using /bin/nano to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/nano.1.gz (of link group editor) doesn't exist
+update-alternatives: using /bin/nano to provide /usr/bin/pico (pico) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/pico.1.gz because associated file /usr/share/man/man1/nano.1.gz (of link group pico) doesn't exist
+7[59;0f[42m[30mProgress: [ 80%][49m[39m [######################################################################################################################################################################..........................................] 8
+7[0;59r8[1A[J[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# apt install nano[6Pupdated updatenano /usr/src/app/index.js
+[?2004l
+[?2004h[?1049h[22;0;0t[1;59r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[57;109H(B[0;7m[ Reading... ](B[m[57;108H(B[0;7m[ Read 0 lines ](B[m[H(B[0;7m  GNU nano 6.2 [92b/usr/src/app/index.js [100b [1;229H(B[m
+[58d(B[0;7m^G(B[m Help[58;18H(B[0;7m^O(B[m Write Out     (B[0;7m^W(B[m Where Is[52G(B[0;7m^K(B[m Cut[58;69H(B[0;7m^T(B[m Execute[86G(B[0;7m^C(B[m Location[103G(B[0;7mM-U(B[m Undo[58;120H(B[0;7mM-A(B[m Set Mark     (B[0;7mM-](B[m To Bracket   (B[0;7mM-Q(B[m Previous     (B[0;7m^B(B[m Back[58;188H(B[0;7m^Left(B[m Prev Word  (B[0;7m^A(B[m Home
+[59d(B[0;7m^X(B[m Exit[59;18H(B[0;7m^R(B[m Read File     (B[0;7m^\(B[m Replace[52G(B[0;7m^U(B[m Paste[59;69H(B[0;7m^J(B[m Justify[86G(B[0;7m^/(B[m Go To Line    (B[0;7mM-E(B[m Redo[59;120H(B[0;7mM-6(B[m Copy[59;137H(B[0;7m^Q(B[m Where Was     (B[0;7mM-W(B[m Next[59;171H(B[0;7m^F(B[m Forward[188G(B[0;7m^Right(B[m Next Word (B[0;7m^E(B[m End
+[2d[?12l[?25h[?25l[1;130H(B[0;7m*
+[57d(B[m[K[1;229H
+[2dconsole.log((B[0;1m[35m'Hello World'[39m(B[m)[?12l[?25h[?25l[58;18H[28X[58;52H      (B[0;7mM-D(B[m DOS Format [6b[86G [10b[103G [11b(B[0;7mM-A(B[m Append[47X[58;172H(B[0;7mM-B(B[m Backup File[K[59;2H(B[0;7mC(B[m Cancel[59;18H[27X[59;52H      (B[0;7mM-M(B[m Mac Format [6b[86G[29X[59;115H(B[0;7mM-P(B[m Prepend  [59;137H[25X[59;171H (B[0;7m^T(B[m Browse[K
+[57d(B[0;7mFile Name to Write: /usr/src/app/index.js [187b [57;42H(B[m[?12l[?25h[?25l[57;108H[1K (B[0;7m[ Writing... ](B[m[K[1;130H(B[0;7m [229G(B[m[57;108H(B[0;7m[ Wrote 1 line ](B[m[58;18H(B[0;7m^O(B[m Write Out     (B[0;7m^W(B[m Where Is[52G(B[0;7m^K(B[m Cut [10b(B[0;7m^T(B[m Execute[86G(B[0;7m^C(B[m Location[103G(B[0;7mM-U(B[m Undo [8b(B[0;7mM-A(B[m Set Mark     (B[0;7mM-](B[m To Bracket   (B[0;7mM-Q(B[m Previous     (B[0;7m^B(B[m Back [7b  (B[0;7m^Left(B[m Prev Word  (B[0;7m^A(B[m Home[59;2H(B[0;7mX(B[m Exit  [59;18H(B[0;7m^R(B[m Read File     (B[0;7m^\(B[m Replace[52G(B[0;7m^U(B[m Paste [8b(B[0;7m^J(B[m Justify[86G(B[0;7m^/(B[m Go To Line    (B[0;7mM-E(B[m Redo [8b(B[0;7mM-6(B[m Copy[59;137H(B[0;7m^Q(B[m Where Was     (B[0;7mM-W(B[m Next[59;171H(B[0;7m^F(B[m Forward[188G(B[0;7m^Right(B[m Next Word (B[0;7m^E(B[m End[?12l[?25h[2;27H[?25l
+[57d[J[59d[?12l[?25h[59;1H[?1049l[23;0;0t
+[?1l>[?2004l[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# [Kcat [7m/usr/src/app/index.js[27m/usr/src/app/index.js
+[?2004l
+console.log('Hello World')
+[?2004h]0;root@5a0366baa4d4: /root@5a0366baa4d4:/# exit
+[?2004l
+exit
+[?2004h]0;andrei@andrei-ThinkPad-T480: ~[01;32mandrei@andrei-ThinkPad-T480[00m:[01;34m~[00m$ exit
+[?2004l
+exit
+
+Script done on 2023-04-23 18:40:09+03:00 [COMMAND_EXIT_CODE="0"]

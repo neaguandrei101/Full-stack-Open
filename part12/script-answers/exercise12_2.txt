@@ -1,0 +1,7 @@
+Script started on 2023-04-22 01:20:25+03:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="152" LINES="21"]
+[?2004h]0;andrei@andrei-ThinkPad-T480: ~/Repos/Full-stack-Open/part12/script-answers[01;32mandrei@andrei-ThinkPad-T480[00m:[01;34m~/Repos/Full-stack-Open/part12/script-answers[00m$ echo ""h"e"l"l"o"
+[?2004lhello
+[?2004h]0;andrei@andrei-ThinkPad-T480: ~/Repos/Full-stack-Open/part12/script-answers[01;32mandrei@andrei-ThinkPad-T480[00m:[01;34m~/Repos/Full-stack-Open/part12/script-answers[00m$ exit
+[?2004lexit
+
+Script done on 2023-04-22 01:20:41+03:00 [COMMAND_EXIT_CODE="0"]
