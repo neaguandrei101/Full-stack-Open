@@ -1,5 +1,6 @@
 const express = require("express");
 const { Todo } = require("../mongo");
+const { incrAsync } = require("../redis/index");
 const router = express.Router();
 
 /* GET todos listing. */
@@ -14,6 +15,7 @@ router.post("/", async (req, res) => {
     text: req.body.text,
     done: false,
   });
+  await incrAsync("added_todos");
   res.send(todo);
 });
 
@@ -37,7 +39,6 @@ singleRouter.get("/", async (req, res) => {
   res.json(req.todo);
 });
 
-/* PUT todo. */
 singleRouter.put("/", async (req, res) => {
   const updatedTodo = await Todo.findByIdAndUpdate(req.todo.id, req.body, {
     new: true,
