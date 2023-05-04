@@ -1,0 +1,22 @@
+andrei@andrei-ThinkPad-T480:~/Repos/Full-stack-Open/part12/todo-app/todo-backend$ docker compose -f docker-compose.dev.yml up -d
+WARN[0000] Found orphan containers ([express-server-container]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
+[+] Running 2/2
+ ✔ Container todo-backend-redis-1  Started                                                                                                                                                                                       0.6s 
+ ✔ Container todo-backend-mongo-1  Started                                                                                                                                                                                       0.6s 
+andrei@andrei-ThinkPad-T480:~/Repos/Full-stack-Open/part12/todo-app/todo-backend$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED        STATUS         PORTS                     NAMES
+dba116903df0   redis:7.0.11-bullseye   "docker-entrypoint.s…"   24 hours ago   Up 3 seconds   0.0.0.0:6379->6379/tcp    todo-backend-redis-1
+9d79a8d44bb9   mongo                   "docker-entrypoint.s…"   2 days ago     Up 3 seconds   0.0.0.0:3456->27017/tcp   todo-backend-mongo-1
+andrei@andrei-ThinkPad-T480:~/Repos/Full-stack-Open/part12/todo-app/todo-backend$ docker exec redis-cli db
+Error response from daemon: No such container: redis-cli
+andrei@andrei-ThinkPad-T480:~/Repos/Full-stack-Open/part12/todo-app/todo-backend$ docker exec -it db redis-cli
+127.0.0.1:6379> keys *
+1) "added_todos"
+127.0.0.1:6379> GET added_todos
+"1"
+127.0.0.1:6379> SET added_todos 9001
+OK
+127.0.0.1:6379> GET added_todos
+"9001"
+127.0.0.1:6379> 
+ 
