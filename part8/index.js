@@ -89,7 +89,7 @@ const typeDefs = `
   type Query {
     bookCount: Int
     authorCount: Int
-    allBooks(author: String): [Book!]!
+    allBooks(author: String, genre: Genre): [Book!]!
     allAuthors: [Author]!
   }
   
@@ -105,6 +105,16 @@ const typeDefs = `
     name: String!
     bookCount: Int!
   }
+  
+  enum Genre {
+    REFACTORING
+    AGILE
+    PATTERNS 
+    DESIGN
+    CLASSIC 
+    REVOLUTION
+    CRIME
+  }
 `;
 
 const resolvers = {
@@ -112,11 +122,27 @@ const resolvers = {
     bookCount: () => books.length,
     authorCount: () => [...new Set(books.map((book) => book.author))].length,
     allBooks: (root, args) => {
-      if (!args.author) {
-        return books;
+      let result = [];
+
+      switch (args) {
+        case !args.author && !args.genre:
+          break;
+        case args.author && args.genre:
+          result = books
+            .filter((book) => book.author === args.author)
+            .filter((book) => book.genres.includes(args.genre.toLowerCase()));
+          break;
+        case args.author && !args.genre:
+          result = books.filter((book) => book.author === args.author);
+          break;
+        case args.genre && !args.author:
+          result = books.filter((book) =>
+            book.genres.includes(args.genre.toLowerCase())
+          );
+          break;
       }
 
-      return books.filter((book) => book.author === args.author);
+      return result;
     },
     allAuthors: () => authors,
   },
