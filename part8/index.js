@@ -1,5 +1,6 @@
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
+const { v1: uuid } = require("uuid");
 
 let authors = [
   {
@@ -93,6 +94,15 @@ const typeDefs = `
     allAuthors: [Author]!
   }
   
+  type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ):Book
+  }
+  
   type Book {
     title: String!
     published: Int!
@@ -124,23 +134,17 @@ const resolvers = {
     allBooks: (root, args) => {
       let result = [];
 
-      switch (args) {
-        case !args.author && !args.genre:
-          break;
-        case args.author && args.genre:
-          result = books
-            .filter((book) => book.author === args.author)
-            .filter((book) => book.genres.includes(args.genre.toLowerCase()));
-          break;
-        case args.author && !args.genre:
-          result = books.filter((book) => book.author === args.author);
-          break;
-        case args.genre && !args.author:
-          result = books.filter((book) =>
-            book.genres.includes(args.genre.toLowerCase())
-          );
-          break;
-      }
+      if (!args.author && !args.genre) result = books;
+      else if (args.author && args.genre)
+        result = books
+          .filter((book) => book.author === args.author)
+          .filter((book) => book.genres.includes(args.genre.toLowerCase()));
+      else if (args.author && !args.genre)
+        result = books.filter((book) => book.author === args.author);
+      else if (args.genre && !args.author)
+        result = books.filter((book) =>
+          book.genres.includes(args.genre.toLowerCase())
+        );
 
       return result;
     },
@@ -150,6 +154,25 @@ const resolvers = {
   Author: {
     bookCount: (root) =>
       books.filter((book) => book.author === root.name).length,
+  },
+
+  Mutation: {
+    addBook: (root, args) => {
+      const { title, published, author, genres } = args;
+
+      const createdBook = { ...args, id: uuid() };
+      books.push(createdBook);
+
+      const found = authors.find((val) => val.name === author);
+
+      let createdAuthor = null;
+      if (!found) {
+        createdAuthor = { author, id: uuid() };
+        authors.push(createdAuthor);
+      }
+
+      return createdBook;
+    },
   },
 };
 
