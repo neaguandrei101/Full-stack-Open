@@ -118,6 +118,7 @@ const typeDefs = `
   type Author {
     name: String!
     bookCount: Int!
+    born: Int
   }
   
   enum Genre {
