@@ -22,9 +22,12 @@ const Authors = (props) => {
     event.preventDefault();
 
     console.log("update author year...");
+    const selectedAuthor = Object.fromEntries(
+      new FormData(event.target).entries()
+    ).selectedAuthor;
 
     await editAuthor({
-      variables: { name, born: Number(born) },
+      variables: { name: selectedAuthor, born: Number(born) },
       refetchQueries: [{ query: ALL_AUTHORS }],
     });
 
@@ -55,13 +58,14 @@ const Authors = (props) => {
       </table>
       <h2>Set birth year</h2>
       <form onSubmit={submit}>
-        <div>
-          name
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
-        </div>
+        <label>
+          Author:
+          <select name={"selectedAuthor"}>
+            {authors.map((author) => (
+              <option key={author.name}>{author.name}</option>
+            ))}
+          </select>
+        </label>
         <div>
           born
           <input
