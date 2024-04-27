@@ -25,9 +25,9 @@ mongoose
 
 const typeDefs = `
   type Query {
-    #bookCount: Int
-    #authorCount: Int
-    #allBooks(author: String, genre: Genre): [Book!]!
+    bookCount: Int
+    authorCount: Int
+    allBooks(author: String, genre: Genre): [Book!]!
     allAuthors: [Author]!
   }
   
@@ -38,10 +38,10 @@ const typeDefs = `
       published: Int!
       genres: [String!]!
     ):Book
-    #editAuthor(
-    #  name:String!
-    #  born:Int!
-    #):Author
+    editAuthor(
+      name:String!
+      born:Int!
+    ):Author
   }
   
   type Book {
@@ -71,67 +71,106 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    // bookCount: () => books.length,
-    // authorCount: () => [...new Set(books.map((book) => book.author))].length,
-    // allBooks: (root, args) => {
-    //   let result = [];
-    //
-    //   if (!args.author && !args.genre) result = books;
-    //   else if (args.author && args.genre)
-    //     result = books
-    //       .filter((book) => book.author === args.author)
-    //       .filter((book) => book.genres.includes(args.genre.toLowerCase()));
-    //   else if (args.author && !args.genre)
-    //     result = books.filter((book) => book.author === args.author);
-    //   else if (args.genre && !args.author)
-    //     result = books.filter((book) =>
-    //       book.genres.includes(args.genre.toLowerCase())
-    //     );
-    //
-    //   return result;
-    // },
+    bookCount: async () => Book.collection.countDocuments(),
+    authorCount: async () => Author.collection.countDocuments(),
+    allBooks: (root, args) => {
+      let result = [];
+
+      if (!args.author && !args.genre) result = books;
+      else if (args.author && args.genre)
+        result = books
+          .filter((book) => book.author === args.author)
+          .filter((book) => book.genres.includes(args.genre.toLowerCase()));
+      else if (args.author && !args.genre)
+        result = books.filter((book) => book.author === args.author);
+      else if (args.genre && !args.author)
+        result = books.filter((book) =>
+          book.genres.includes(args.genre.toLowerCase())
+        );
+
+      return result;
+    },
+
+    allBooks: async (root, args) => {
+      let result = [];
+
+      if (!args.author && !args.genre) result = await Book.find({});
+      else if (args.author && args.genre) {
+        const queryResult = await Book.find({genres: { 
+          $elemMatch: { 
+              $eq: args.genre
+          }
+      }})
+          .populate({
+            path: 'author',
+            match: { name: { $eq: args.author }, }
+          })
+
+        result = queryResult.filter(book => book.author !== null)
+      } else if (args.author && !args.genre) {
+        const queryResult = await Book.find({})
+          .populate({
+            path: 'author',
+            match: { name: { $eq: args.author }, }
+          })
+
+        result = queryResult.filter(book => book.author !== null)
+      } else if (args.genre && !args.author) {
+        const queryResult = await Book.find({genres: { 
+          $elemMatch: { 
+              $eq: args.genre
+          }
+      }})
+          .populate('author')
+
+        result = queryResult.filter(book => book.author !== null)
+      }
+
+      return result;
+    },
     allAuthors: async () => Author.find({}),
   },
 
   Author: {
-    bookCount: (root) => 99,
-    // books.filter((book) => book.author === root.name).length,
+    bookCount: async (root) => {
+      const noOfBooks = await Book.find({}).populate({
+        path: 'author',
+        match: { name: { $eq: root.name } }
+      }).count()
+      return noOfBooks;
+    },
   },
 
   Book: {
-    author: (root) => 'hardcoded',
+    author: async (root) => {
+      const author = await Author.findOne({ _id: root.author._id }).lean();
+      return author.name;
+    },
   },
 
   Mutation: {
     addBook: async (root, args) => {
       const { title, published, author, genres } = args;
 
-      let savedAuthor = await Author.findOne({name: author})
+      let savedAuthor = await Author.findOne({ name: author })
 
       if (!savedAuthor) {
-        const newAuthor =  new Author({ name: author });
-        savedAuthor = await newAuthor.save()
+        savedAuthor = await Author.create({ name: author });
       }
 
-      const createdBook = new Book({ ...args, author: savedAuthor });
-      const savedBook = createdBook.save()
+      const savedBook = await Book.create({ ...args, author: savedAuthor });
 
       return savedBook;
     },
 
-    // editAuthor: (root, args) => {
-    //   const { name, born } = args;
-    //   let result = null;
-    //
-    //   const authorIndex = authors.findIndex((val) => val.name === name);
-    //
-    //   if (authorIndex >= 0) {
-    //     authors[authorIndex].born = born;
-    //     result = authors[authorIndex];
-    //   }
-    //
-    //   return result;
-    // },
+    editAuthor: async (root, args) => {
+      const { name, born } = args;
+
+      let author = await Author.findOne({ name: name })
+      author.born = born;
+
+      return await author.save();
+    },
   },
 };
 
