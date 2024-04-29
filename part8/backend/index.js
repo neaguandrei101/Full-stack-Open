@@ -1,6 +1,6 @@
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
-const { v1: uuid } = require("uuid");
+const { GraphQLError } = require('graphql')
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -73,34 +73,18 @@ const resolvers = {
   Query: {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: async () => Author.collection.countDocuments(),
-    allBooks: (root, args) => {
-      let result = [];
-
-      if (!args.author && !args.genre) result = books;
-      else if (args.author && args.genre)
-        result = books
-          .filter((book) => book.author === args.author)
-          .filter((book) => book.genres.includes(args.genre.toLowerCase()));
-      else if (args.author && !args.genre)
-        result = books.filter((book) => book.author === args.author);
-      else if (args.genre && !args.author)
-        result = books.filter((book) =>
-          book.genres.includes(args.genre.toLowerCase())
-        );
-
-      return result;
-    },
-
     allBooks: async (root, args) => {
       let result = [];
 
       if (!args.author && !args.genre) result = await Book.find({});
       else if (args.author && args.genre) {
-        const queryResult = await Book.find({genres: { 
-          $elemMatch: { 
+        const queryResult = await Book.find({
+          genres: {
+            $elemMatch: {
               $eq: args.genre
+            }
           }
-      }})
+        })
           .populate({
             path: 'author',
             match: { name: { $eq: args.author }, }
@@ -116,11 +100,13 @@ const resolvers = {
 
         result = queryResult.filter(book => book.author !== null)
       } else if (args.genre && !args.author) {
-        const queryResult = await Book.find({genres: { 
-          $elemMatch: { 
+        const queryResult = await Book.find({
+          genres: {
+            $elemMatch: {
               $eq: args.genre
+            }
           }
-      }})
+        })
           .populate('author')
 
         result = queryResult.filter(book => book.author !== null)
@@ -158,9 +144,21 @@ const resolvers = {
         savedAuthor = await Author.create({ name: author });
       }
 
-      const savedBook = await Book.create({ ...args, author: savedAuthor });
+      const newBook = new Book({ ...args, author: savedAuthor });
 
-      return savedBook;
+      try {
+        await newBook.save()
+      } catch (error) {
+        throw new GraphQLError('Saving book failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args,
+            error
+          }
+        });
+      }
+
+      return newBook;
     },
 
     editAuthor: async (root, args) => {
