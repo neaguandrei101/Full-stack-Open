@@ -6,8 +6,10 @@ const Books = (props) => {
   const query = useQuery(ALL_BOOKS);
   const [books, setBooks] = useState([])
 
-  useEffect(() => setBooks(query.data.allBooks),
-    [query.data])
+  useEffect(() => {
+    if (!query.loading)
+      setBooks(query.data.allBooks)},
+    [query])
 
   if (!props.show) {
     return null;
