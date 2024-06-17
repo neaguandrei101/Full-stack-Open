@@ -33,15 +33,15 @@ const ADD_BOOK = gql`
 `;
 
 const ALL_BOOKS = gql`
-  query AllBooks {
-    allBooks {
-      title
-      published
-      genres
-      author
-      id
-    }
+query AllBooks($genre: Genre) {
+  allBooks(genre: $genre) {
+    title
+    published
+    author
+    id
+    genres
   }
+}
 `;
 
 const EDIT_AUTHOR = gql`

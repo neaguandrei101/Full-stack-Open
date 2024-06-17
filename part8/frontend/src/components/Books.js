@@ -3,7 +3,10 @@ import { ALL_BOOKS } from "../queries";
 import { useState, useEffect } from "react";
 
 const Books = (props) => {
-  const query = useQuery(ALL_BOOKS);
+  const [genre, setGenre] = useState(null)
+  const query = useQuery(ALL_BOOKS, {    
+    variables: { genre } 
+  });
   const [books, setBooks] = useState([])
 
   useEffect(() => {
@@ -19,16 +22,11 @@ const Books = (props) => {
     return <div>loading...</div>
 
   const filter = (e) => {
-
-    const allBooks = query.data.allBooks;
-
-    let result = []
     if (e.target.innerText === "ALL") {
-      result = allBooks
+      setGenre(null)
     } else {
-      result = allBooks.filter((book) => book.genres.includes(e.target.innerText));
+      setGenre(e.target.innerText)
     }
-    setBooks(result)
   }
 
   return (
