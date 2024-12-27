@@ -71,4 +71,16 @@ query Me {
   }
 }`
 
-export { ALL_AUTHORS, ADD_BOOK, ALL_BOOKS, EDIT_AUTHOR, LOGIN, ME };
+const BOOK_ADDED = gql`
+  subscription Subscription {
+    bookAdded {
+      title
+      published
+      author
+      id
+      genres
+    }
+  }
+`
+
+export { ALL_AUTHORS, ADD_BOOK, ALL_BOOKS, EDIT_AUTHOR, LOGIN, ME, BOOK_ADDED };
