@@ -7,19 +7,6 @@ const Books = (props) => {
   const query = useQuery(ALL_BOOKS, {    
     variables: { genre } 
   });
-  const [books, setBooks] = useState([])
-
-  useEffect(() => {
-    if (!query.loading)
-      setBooks(query.data.allBooks)},
-    [query])
-
-  if (!props.show) {
-    return null;
-  }
-
-  if (query.loading)
-    return <div>loading...</div>
 
   const filter = (e) => {
     if (e.target.innerText === "ALL") {
@@ -28,6 +15,13 @@ const Books = (props) => {
       setGenre(e.target.innerText)
     }
   }
+
+  if (!props.show) {
+    return null;
+  }
+
+  if (query.loading)
+    return <div>loading...</div>
 
   return (
     <div>
@@ -40,7 +34,7 @@ const Books = (props) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.map((a) => (
+          {query.data.allBooks.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>
