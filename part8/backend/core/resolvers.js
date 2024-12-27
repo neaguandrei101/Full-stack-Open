@@ -1,8 +1,11 @@
+const {GraphQLError} = require("graphql/index");
+const {PubSub} = require('graphql-subscriptions');
+const pubsub = new PubSub()
+const jwt = require("jsonwebtoken");
+
 const Book = require("../models/book");
 const Author = require("../models/author");
-const {GraphQLError} = require("graphql/index");
 const User = require("../models/user");
-const jwt = require("jsonwebtoken");
 
 const resolvers = {
     Query: {
@@ -22,7 +25,7 @@ const resolvers = {
                 })
                     .populate({
                         path: 'author',
-                        match: { name: { $eq: args.author }, }
+                        match: {name: {$eq: args.author},}
                     })
 
                 result = queryResult.filter(book => book.author !== null)
@@ -30,7 +33,7 @@ const resolvers = {
                 const queryResult = await Book.find({})
                     .populate({
                         path: 'author',
-                        match: { name: { $eq: args.author }, }
+                        match: {name: {$eq: args.author},}
                     })
 
                 result = queryResult.filter(book => book.author !== null)
@@ -59,7 +62,7 @@ const resolvers = {
         bookCount: async (root) => {
             const noOfBooks = await Book.find({}).populate({
                 path: 'author',
-                match: { name: { $eq: root.name } }
+                match: {name: {$eq: root.name}}
             }).count()
             return noOfBooks;
         },
@@ -67,14 +70,14 @@ const resolvers = {
 
     Book: {
         author: async (root) => {
-            const author = await Author.findOne({ _id: root.author._id }).lean();
+            const author = await Author.findOne({_id: root.author._id}).lean();
             return author.name;
         },
     },
 
     Mutation: {
         addBook: async (root, args, context) => {
-            const { title, published, author, genres } = args;
+            const {title, published, author, genres} = args;
 
             const currentUser = context.currentUser
             if (!currentUser) {
@@ -85,13 +88,13 @@ const resolvers = {
                 })
             }
 
-            let savedAuthor = await Author.findOne({ name: author })
+            let savedAuthor = await Author.findOne({name: author})
 
             if (!savedAuthor) {
-                savedAuthor = await Author.create({ name: author });
+                savedAuthor = await Author.create({name: author});
             }
 
-            const newBook = new Book({ ...args, author: savedAuthor });
+            const newBook = new Book({...args, author: savedAuthor});
 
             try {
                 await newBook.save()
@@ -105,11 +108,13 @@ const resolvers = {
                 });
             }
 
+            pubsub.publish('BOOK_ADDED', {bookAdded: newBook})
+
             return newBook;
         },
 
         editAuthor: async (root, args, context) => {
-            const { name, born } = args;
+            const {name, born} = args;
 
             const currentUser = context.currentUser
             if (!currentUser) {
@@ -120,14 +125,14 @@ const resolvers = {
                 })
             }
 
-            let author = await Author.findOne({ name: name })
+            let author = await Author.findOne({name: name})
             author.born = born;
 
             return await author.save();
         },
 
         createUser: async (root, args) => {
-            const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
+            const user = new User({username: args.username, favoriteGenre: args.favoriteGenre})
 
             return user.save()
                 .catch(error => {
@@ -141,7 +146,7 @@ const resolvers = {
                 })
         },
         login: async (root, args) => {
-            const user = await User.findOne({ username: args.username })
+            const user = await User.findOne({username: args.username})
 
             if (!user || args.password !== 'secret') {
                 throw new GraphQLError('wrong credentials', {
@@ -156,8 +161,15 @@ const resolvers = {
                 id: user._id,
             }
 
-            return { value: jwt.sign(userForToken, process.env.JWT_SECRET) }
+            return {value: jwt.sign(userForToken, process.env.JWT_SECRET)}
         },
+    },
+
+    Subscription: {
+        bookAdded: {
+            subscribe: () => pubsub.asyncIterableIterator(['BOOK_ADDED']),
+        },
+
     },
 };
 

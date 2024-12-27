@@ -28,6 +28,10 @@ const typeDefs = `
     ): Token
   }
   
+  type Subscription {
+    bookAdded: Book!
+  }    
+  
   type User {
     username: String!
     favoriteGenre: String!
