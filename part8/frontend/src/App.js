@@ -5,7 +5,7 @@ import NewBook from "./components/NewBook";
 import LoginForm from "./components/LoginForm";
 import Recommend from "./components/Recommend";
 
-import {useQuery, useApolloClient, useSubscription} from "@apollo/client";
+import {useApolloClient, useQuery, useSubscription} from "@apollo/client";
 import {ALL_AUTHORS, ALL_BOOKS, BOOK_ADDED} from "./queries";
 
 export const updateCache = (cache, query, addedBook) => {
@@ -13,12 +13,10 @@ export const updateCache = (cache, query, addedBook) => {
     // helper that is used to eliminate saving same book twice
     const uniqByTitle = (a) => {
         let seen = new Set()
-        const result = a.filter((item) => {
+        return a.filter((item) => {
             let k = item.title
             return seen.has(k) ? false : seen.add(k)
-        })
-
-        return result;
+        });
     }
 
     cache.updateQuery({query: ALL_BOOKS, variables: {genre: null}}, (data) => {
