@@ -1,25 +1,32 @@
-interface MultiplyValues {
-    value1: number;
-    value2: number;
+import {isNotNumber as isNotNumber} from "./utils/helper";
+
+export interface InputValues {
+    target: number;
+    days: Days;
 }
 
-const parseArguments = (args: string[]): MultiplyValues => {
-    if (args.length < 4) throw new Error('Not enough arguments');
-    if (args.length > 4) throw new Error('Too many arguments');
+const parseArguments = (args: string[]): InputValues => {
+    if (args.length < 10) throw new Error('Not enough arguments');
 
-    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
-        return {
-            value1: Number(args[2]),
-            value2: Number(args[3])
-        }
-    } else {
-        throw new Error('Provided values were not numbers!');
+    for (let i = 2; i < args.length; i++) {
+        if (isNotNumber(args[i]))
+            throw new Error('Provided values were not numbers!');
     }
+
+    return {
+        target: Number(args[2]),
+        days: args.map((x, i, arr) => {
+            if (i < 3) return null;
+
+            return Number(x);
+        }).filter(x => x != null)
+    }
+
 }
 
 
 interface Result {
-    periodLength: 7;
+    periodLength: number;
     trainingDays: number;
     success: boolean;
     rating: number;
@@ -28,13 +35,13 @@ interface Result {
     average: number;
 }
 
-type Week = [number, number, number, number, number, number, number];
+type Days = number[];
 
-function calculateExercises(dailyHours: Week, target: number): Result {
+function calculateExercises(dailyHours: Days, target: number): Result {
 
-    const avg = dailyHours.reduce((a, b) => a + b, 0) / 7;
+    const avg = dailyHours.reduce((a, b) => a + b, 0) / dailyHours.length;
     return {
-        periodLength: 7,
+        periodLength: dailyHours.length,
         trainingDays: dailyHours.filter(num => num > 0).length,
         success: avg >= target,
         rating: 2,
@@ -44,4 +51,15 @@ function calculateExercises(dailyHours: Week, target: number): Result {
     } as Result;
 }
 
-console.log(calculateExercises([3, 8, 2, 4.5, 0, 3, 1], 2));
+
+try {
+    const {target, days} = parseArguments(process.argv);
+
+    console.log(calculateExercises(days, target))
+} catch (error: unknown) {
+    let errorMessage = 'Something bad happened.'
+    if (error instanceof Error) {
+        errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
+}

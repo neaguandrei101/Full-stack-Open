@@ -1,5 +1,22 @@
+import {isNotNumber as isNotNumber} from "./utils/helper";
+import {MultiplyValues} from "./utils/helper";
+
+const parseArguments = (args: string[]): MultiplyValues => {
+    if (args.length < 4) throw new Error('Not enough arguments');
+    if (args.length > 4) throw new Error('Too many arguments');
+
+    if ((isNotNumber(args[2]) && isNotNumber(args[3]))) {
+        throw new Error('Provided values were not numbers!');
+    } else {
+        return {
+            value1: Number(args[2]),
+            value2: Number(args[3])
+        }
+    }
+}
+
 function calculateBmi(height: number, weight: number): string {
-    const bmi:number = weight / Math.pow(height / 100, 2);
+    const bmi: number = weight / Math.pow(height / 100, 2);
 
     let result: string;
     switch (true) {
@@ -33,4 +50,13 @@ function calculateBmi(height: number, weight: number): string {
     return result;
 }
 
-console.log(calculateBmi(180, 74))
+try {
+    const {value1, value2} = parseArguments(process.argv);
+    console.log(calculateBmi(value1, value2))
+} catch (error: unknown) {
+    let errorMessage = 'Something bad happened.'
+    if (error instanceof Error) {
+        errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
+}
