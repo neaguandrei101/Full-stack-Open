@@ -11,9 +11,9 @@ const parseArguments = (args: string[]): MultiplyValues => {
         return {
             value1: Number(args[2]),
             value2: Number(args[3])
-        }
+        };
     }
-}
+};
 
 export function calculateBmi(height: number, weight: number): string {
     const bmi: number = weight / Math.pow(height / 100, 2);
@@ -53,9 +53,9 @@ export function calculateBmi(height: number, weight: number): string {
 if (require.main === module) {
     try {
         const {value1, value2} = parseArguments(process.argv);
-        console.log(calculateBmi(value1, value2))
+        console.log(calculateBmi(value1, value2));
     } catch (error: unknown) {
-        let errorMessage = 'Something bad happened.'
+        let errorMessage = 'Something bad happened.';
         if (error instanceof Error) {
             errorMessage += ' Error: ' + error.message;
         }

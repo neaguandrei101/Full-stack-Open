@@ -15,14 +15,14 @@ const parseArguments = (args: string[]): InputValues => {
 
     return {
         target: Number(args[2]),
-        days: args.map((x, i, arr) => {
+        days: args.map((x, i, _arr) => {
             if (i < 3) return null;
 
             return Number(x);
-        }).filter(x => x != null)
-    }
+        }).filter(x => x != null) as number[]
+    };
 
-}
+};
 
 
 interface Result {
@@ -55,9 +55,9 @@ function calculateExercises(dailyHours: Days, target: number): Result {
 try {
     const {target, days} = parseArguments(process.argv);
 
-    console.log(calculateExercises(days, target))
+    console.log(calculateExercises(days, target));
 } catch (error: unknown) {
-    let errorMessage = 'Something bad happened.'
+    let errorMessage = 'Something bad happened.';
     if (error instanceof Error) {
         errorMessage += ' Error: ' + error.message;
     }
