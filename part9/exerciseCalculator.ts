@@ -37,7 +37,7 @@ interface Result {
 
 type Days = number[];
 
-function calculateExercises(dailyHours: Days, target: number): Result {
+export function calculateExercises(dailyHours: Days, target: number): Result {
 
     const avg = dailyHours.reduce((a, b) => a + b, 0) / dailyHours.length;
     return {
