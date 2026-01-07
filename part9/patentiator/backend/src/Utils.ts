@@ -1,6 +1,6 @@
 import {Gender, NewPatientEntry} from "./types";
 
-export function toNewDiaryEntry(object: unknown): NewPatientEntry {
+export function toNewPatientEntry(object: unknown): NewPatientEntry {
     if (!object || typeof object !== 'object') {
         throw new Error('Incorrect or missing data');
     }
@@ -12,7 +12,6 @@ export function toNewDiaryEntry(object: unknown): NewPatientEntry {
             ssn: parseSsn(object.ssn),
             gender: parseGender(object.gender),
             occupation: parseOccupation(object.occupation),
-
         };
 
         return newEntry;
@@ -65,6 +64,6 @@ const parseGender = (gender: unknown): Gender => {
     return gender;
 };
 
-const isGender = (str: string): str is Gender => {
-    return ['male', 'female'].includes(str);
+const isGender = (gender: string): gender is Gender => {
+    return Object.values(Gender).map(v => v.toString()).includes(gender);
 };

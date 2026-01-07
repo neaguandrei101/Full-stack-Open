@@ -5,7 +5,7 @@ import patientsRouter from './src/routes/Patients';
 
 const app = express();
 app.use(express.json());
-app.use(cors()); // This allows all origins
+app.use(cors());
 
 const PORT = 3001;
 
