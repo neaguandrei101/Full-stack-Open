@@ -1,7 +1,8 @@
 import express from 'express';
 import {Response} from 'express';
 import patientsService from '../services/patientsService';
-import {NonSensitivePatientEntry} from "../types";
+import {NewPatientEntry, NonSensitivePatientEntry} from "../types";
+import {toNewDiaryEntry} from "../Utils";
 
 const router = express.Router();
 
@@ -10,8 +11,13 @@ router.get('/', (_req, res: Response<NonSensitivePatientEntry[]>) => {
     res.send(entries);
 });
 
-router.post('/', (_req, res) => {
-    res.send("Saving a diagnosis!");
+router.post('/', (req, res) => {
+    const entry: NewPatientEntry = toNewDiaryEntry(req.body);
+
+    const addedEntry = patientsService.addPatient(
+        entry
+    );
+    res.json(addedEntry);
 });
 
 export default router;

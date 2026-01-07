@@ -91,3 +91,4 @@ typings/
 .idea/
 **/requests/
 part13/flyCredentials
+**/build/
