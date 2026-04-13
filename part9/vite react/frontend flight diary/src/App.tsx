@@ -13,21 +13,22 @@ const JournalElement = ({journalLogs}: { journalLogs: JournalLog[] }): React.Rea
     return (
         <div>
             {journalLogs.map((journal) => (
-                    <div key={journal.id}>
-                        <h3>Date: {journal.date}</h3>
-                        <p>Weather: {journal.weather}</p>
-                        <p>Visibility: {journal.visibility}</p>
-                    </div>)
+                <div key={journal.id}>
+                    <h3>Date: {journal.date}</h3>
+                    <p>Weather: {journal.weather}</p>
+                    <p>Visibility: {journal.visibility}</p>
+                </div>)
             )}
         </div>
     );
 };
 
-
-
 function App() {
 
     const [journalLogs, setJournalLogs] = React.useState<JournalLog[]>([]);
+    const [date, setDate] = React.useState<string>("");
+    const [weather, setWeather] = React.useState<string>("");
+    const [visibility, setVisibility] = React.useState<string>("");
 
     useEffect(() => {
         axios.get<JournalLog[]>('http://localhost:3000/api/diaries').then(response => {
@@ -35,10 +36,61 @@ function App() {
         })
     }, [])
 
+    const journalCreation = (event: React.SyntheticEvent) => {
+        event.preventDefault()
+
+        const newJournalLog: Omit<JournalLog, 'id'> = {
+            date, weather, visibility
+        }
+
+        axios.post<JournalLog>('http://localhost:3000/api/diaries', newJournalLog)
+            .then(response => {
+                setJournalLogs(journalLogs.concat(response.data))
+            })
+
+        setDate('')
+        setWeather('')
+        setVisibility('')
+    };
+
     return (
         <div>
             <h1>Diary entries</h1>
-            <JournalElement journalLogs={journalLogs} />
+            <JournalElement journalLogs={journalLogs}/>
+
+            <form onSubmit={journalCreation}>
+                <div style={{marginBottom: '10px'}}>
+                    <label>
+                        Date:
+                        <input
+                            value={date}
+                            onChange={(event) => setDate(event.target.value)}
+                        />
+                    </label>
+                </div>
+
+                <div style={{marginBottom: '10px'}}>
+                    <label>
+                        Weather:
+                        <input
+                            value={weather}
+                            onChange={(event) => setWeather(event.target.value)}
+                        />
+                    </label>
+                </div>
+
+                <div style={{marginBottom: '10px'}}>
+                    <label>
+                        Visibility:
+                        <input
+                            value={visibility}
+                            onChange={(event) => setVisibility(event.target.value)}
+                        />
+                    </label>
+                </div>
+
+                <button type='submit'>add</button>
+            </form>
         </div>
     )
 }
