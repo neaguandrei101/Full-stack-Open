@@ -30,6 +30,8 @@ function App() {
     const [weather, setWeather] = React.useState<string>("");
     const [visibility, setVisibility] = React.useState<string>("");
 
+    const [error, setError] =  React.useState<string>("");
+
     useEffect(() => {
         axios.get<JournalLog[]>('http://localhost:3000/api/diaries').then(response => {
             setJournalLogs(response.data)
@@ -43,9 +45,18 @@ function App() {
             date, weather, visibility
         }
 
+
         axios.post<JournalLog>('http://localhost:3000/api/diaries', newJournalLog)
             .then(response => {
                 setJournalLogs(journalLogs.concat(response.data))
+            })
+            .catch(error => {
+                if (axios.isAxiosError<{message: string}>(error)) {
+                    console.log(error.message);
+                    setError(error.message);
+                } else {
+                    console.error(error);
+                }
             })
 
         setDate('')
@@ -58,6 +69,11 @@ function App() {
             <h1>Diary entries</h1>
             <JournalElement journalLogs={journalLogs}/>
 
+            <h1>Add new journal log</h1>
+
+            <h3 style={{ display: error !== '' ? 'block' : 'none', color: 'red' }}>
+                {error}
+            </h3>
             <form onSubmit={journalCreation}>
                 <div style={{marginBottom: '10px'}}>
                     <label>
