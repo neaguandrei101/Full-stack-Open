@@ -30,7 +30,7 @@ function App() {
     const [weather, setWeather] = React.useState<string>("");
     const [visibility, setVisibility] = React.useState<string>("");
 
-    const [error, setError] =  React.useState<string>("");
+    const [error, setError] = React.useState<string>("");
 
     useEffect(() => {
         axios.get<JournalLog[]>('http://localhost:3000/api/diaries').then(response => {
@@ -51,7 +51,7 @@ function App() {
                 setJournalLogs(journalLogs.concat(response.data))
             })
             .catch(error => {
-                if (axios.isAxiosError<{message: string}>(error)) {
+                if (axios.isAxiosError<{ message: string }>(error)) {
                     console.log(error.message);
                     setError(error.message);
                 } else {
@@ -71,7 +71,7 @@ function App() {
 
             <h1>Add new journal log</h1>
 
-            <h3 style={{ display: error !== '' ? 'block' : 'none', color: 'red' }}>
+            <h3 style={{display: error !== '' ? 'block' : 'none', color: 'red'}}>
                 {error}
             </h3>
             <form onSubmit={journalCreation}>
@@ -79,6 +79,7 @@ function App() {
                     <label>
                         Date:
                         <input
+                            type="date"
                             value={date}
                             onChange={(event) => setDate(event.target.value)}
                         />
@@ -86,25 +87,40 @@ function App() {
                 </div>
 
                 <div style={{marginBottom: '10px'}}>
-                    <label>
-                        Weather:
-                        <input
-                            value={weather}
-                            onChange={(event) => setWeather(event.target.value)}
-                        />
-                    </label>
+                    Weather:
+                    <input
+                        value={weather}
+                        onChange={(event) => setWeather(event.target.value)}
+                    />
                 </div>
 
                 <div style={{marginBottom: '10px'}}>
                     <label>
                         Visibility:
-                        <input
-                            value={visibility}
-                            onChange={(event) => setVisibility(event.target.value)}
-                        />
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '10px',
+                            alignItems: 'center'
+                        }}>
+                            <input type="radio" id="great" value="great" name="visibility"
+                                   onChange={(event) => setVisibility(event.target.value)}/>
+                            <label htmlFor="great">Great</label><br/>
+
+                            <input type="radio" id="good" value="good" name="visibility"
+                                   onChange={(event) => setVisibility(event.target.value)}/>
+                            <label htmlFor="good">Good</label><br/>
+
+                            <input type="radio" id="ok" value="ok" name="visibility"
+                                   onChange={(event) => setVisibility(event.target.value)}/>
+                            <label htmlFor="ok">Ok</label><br/>
+
+                            <input type="radio" id="poor" value="poor" name="visibility"
+                                   onChange={(event) => setVisibility(event.target.value)}/>
+                            <label htmlFor="poor">Poor</label>
+                        </div>
                     </label>
                 </div>
-
                 <button type='submit'>add</button>
             </form>
         </div>
